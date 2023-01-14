@@ -92,7 +92,7 @@ def run():
         "component": "cpu",
         "hw_id": None,
         "utilisation": psutil.cpu_percent(),
-        "temperature": get_CPUTemps(),
+        "temperature": None,
         #        "temperature": temperatures,
         "power_consumption": None,
     })
