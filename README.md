@@ -26,7 +26,7 @@ Open port 80 and 3306 on the VPS for TCP/IP trafic
 sudo apt install containerd -y
 sudo apt install -y docker.io docker-compose
 sudo service docker start
-sudo git clone https://github.com/jjziets/vastai_analytics_dasboard.git
+sudo git clone https://github.com/frznfngrs/vastai_analytics_dasboard.git
 cd vastai_analytics_dasboard/server
 ```
 
@@ -53,7 +53,7 @@ password "Password you made in docker.compose.yml"
 user "root"
 ```
 - Hit save
-- Then in the sidebar again, add a dashboard and select "import". Use [this file](https://github.com/jjziets/vast.ai-tools/blob/master/analytics/server/config/Vast-Account%20Overall.json) and [this file](https://github.com/jjziets/vast.ai-tools/blob/master/analytics/server/config/Vast-Host-Details.json)
+- Then in the sidebar again, add a dashboard and select "import". Use [this file](https://github.com/frznfngrs/vast.ai-tools/blob/master/analytics/server/config/Vast-Account%20Overall.json) and [this file](https://github.com/frznfngrs/vast.ai-tools/blob/master/analytics/server/config/Vast-Host-Details.json)
 - Select your dashboard and on the top there is options you can change for power cost, power offset and machine ID. You must set the machine ID to the same one as the client you setup below. You can create a dashboard for each Vast rig and set its machine ID.
 
 ## Client setup
@@ -76,7 +76,7 @@ sudo docker run \
   --network host \
   --name vast-dash-analytics -d \
   --userns=host \
-  jjziets/vast-dash-analytics:latest
+  frznfngrs/vast-dash-analytics:latest
 ```
 
  
@@ -104,7 +104,7 @@ You may also redo the dashboard.json step from the server setup to get the lates
 ```bash
 sudo docker stop vast-dash-analytics
 sudo docker rm vast-dash-analytics
-sudo docker pull jjziets/vast-dash-analytics:latest
+sudo docker pull frznfngrs/vast-dash-analytics:latest
 
 # run client setup again
 ```
