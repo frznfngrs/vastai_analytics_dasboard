@@ -40,7 +40,7 @@ def run():
         "earn_hour": 0 if machine.earn_hour == None else machine.earn_hour,
         "hostname": machine.hostname,
         "earn_day": 0 if machine.earn_day == None else machine.earn_day,
-        "verification": machine.verification
+        "verification": machine.verification,
 	"end_date": 0 if machine.end_date == None else machine.end_date,
     })
 
