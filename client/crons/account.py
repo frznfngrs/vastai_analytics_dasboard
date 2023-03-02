@@ -41,6 +41,7 @@ def run():
         "hostname": machine.hostname,
         "earn_day": 0 if machine.earn_day == None else machine.earn_day,
         "verification": machine.verification
+		"end_date": 0 if machine.end_date == None else machine.end_date,
     })
 
     for key, instance in enumerate(machine.instances):
