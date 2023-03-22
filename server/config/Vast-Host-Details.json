@@ -1,65 +1,4 @@
 {
-  "__inputs": [
-    {
-      "name": "DS_MYSQL",
-      "label": "MySQL",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "mysql",
-      "pluginName": "MySQL"
-    }
-  ],
-  "__elements": [],
-  "__requires": [
-    {
-      "type": "panel",
-      "id": "bargauge",
-      "name": "Bar gauge",
-      "version": ""
-    },
-    {
-      "type": "panel",
-      "id": "gauge",
-      "name": "Gauge",
-      "version": ""
-    },
-    {
-      "type": "grafana",
-      "id": "grafana",
-      "name": "Grafana",
-      "version": "9.0.0"
-    },
-    {
-      "type": "panel",
-      "id": "graph",
-      "name": "Graph (old)",
-      "version": ""
-    },
-    {
-      "type": "datasource",
-      "id": "mysql",
-      "name": "MySQL",
-      "version": "1.0.0"
-    },
-    {
-      "type": "panel",
-      "id": "stat",
-      "name": "Stat",
-      "version": ""
-    },
-    {
-      "type": "panel",
-      "id": "table",
-      "name": "Table",
-      "version": ""
-    },
-    {
-      "type": "panel",
-      "id": "timeseries",
-      "name": "Time series",
-      "version": ""
-    }
-  ],
   "annotations": {
     "list": [
       {
@@ -85,19 +24,19 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": null,
-  "iteration": 1656099439883,
+  "id": 1,
   "links": [],
   "liveNow": false,
   "panels": [
     {
       "datasource": {
         "type": "mysql",
-        "uid": "${DS_MYSQL}"
+        "uid": "yrxo4LT4k"
       },
       "description": "",
       "fieldConfig": {
         "defaults": {
+          "decimals": 0,
           "mappings": [],
           "max": 100,
           "min": 0,
@@ -121,12 +60,6 @@
           "unit": "percent"
         },
         "overrides": []
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 6,
-        "x": 0,
-        "y": 0
       },
       "id": 5,
       "maxDataPoints": 1,
@@ -143,59 +76,35 @@
         "showThresholdMarkers": true,
         "text": {}
       },
-      "pluginVersion": "9.0.0",
+      "pluginVersion": "9.3.2",
       "targets": [
         {
           "datasource": {
             "type": "mysql",
-            "uid": "${DS_MYSQL}"
+            "uid": "yrxo4LT4k"
           },
-          "format": "time_series",
-          "group": [],
-          "metricColumn": "component",
-          "rawQuery": false,
-          "rawSql": "SELECT\n  time AS \"time\",\n  component AS metric,\n  utilisation\nFROM hardware\nWHERE\n  $__unixEpochFilter(time) AND\n  component = 'cpu' AND\n  machine_id = $machine_id\nORDER BY time",
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT\r\n  time AS \"time\",\r\n  component AS metric,\r\n  utilisation\r\nFROM hardware\r\nWHERE\r\n  $__unixEpochFilter(time) AND\r\n  component = 'cpu' AND\r\n  machine_id = $machine_id\r\nORDER BY time",
           "refId": "A",
-          "select": [
-            [
+          "sql": {
+            "columns": [
               {
-                "params": [
-                  "utilisation"
-                ],
-                "type": "column"
+                "parameters": [],
+                "type": "function"
               }
-            ]
-          ],
-          "table": "hardware",
-          "timeColumn": "time",
-          "timeColumnType": "int",
-          "where": [
-            {
-              "name": "$__unixEpochFilter",
-              "params": [],
-              "type": "macro"
-            },
-            {
-              "datatype": "varchar",
-              "name": "",
-              "params": [
-                "component",
-                "=",
-                "'cpu'"
-              ],
-              "type": "expression"
-            },
-            {
-              "datatype": "int",
-              "name": "",
-              "params": [
-                "machine_id",
-                "=",
-                "$machine_id"
-              ],
-              "type": "expression"
-            }
-          ]
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
         }
       ],
       "timeFrom": "1m",
@@ -205,7 +114,7 @@
     {
       "datasource": {
         "type": "mysql",
-        "uid": "${DS_MYSQL}"
+        "uid": "yrxo4LT4k"
       },
       "description": "",
       "fieldConfig": {
@@ -225,8 +134,8 @@
                 "value": 70
               },
               {
-                "color": "red",
-                "value": 90
+                "color": "semi-dark-red",
+                "value": 95
               }
             ]
           },
@@ -235,7 +144,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
+        "h": 3,
         "w": 6,
         "x": 6,
         "y": 0
@@ -246,7 +155,7 @@
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
-            "last"
+            "lastNotNull"
           ],
           "fields": "",
           "values": false
@@ -255,30 +164,258 @@
         "showThresholdMarkers": true,
         "text": {}
       },
-      "pluginVersion": "9.0.0",
+      "pluginVersion": "9.3.2",
       "targets": [
         {
           "datasource": {
             "type": "mysql",
-            "uid": "${DS_MYSQL}"
+            "uid": "yrxo4LT4k"
           },
+          "editorMode": "code",
           "format": "time_series",
           "group": [],
-          "metricColumn": "component",
-          "rawQuery": false,
-          "rawSql": "SELECT\n  time AS \"time\",\n  component AS metric,\n  utilisation\nFROM hardware\nWHERE\n  $__unixEpochFilter(time) AND\n  component = 'ram' AND\n  machine_id = $machine_id\nORDER BY time",
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  time AS \"time\",\n  component AS metric,\n  utilisation\nFROM hardware\nWHERE\n  $__unixEpochFilter(time) AND\n  component = 'ram' AND\n  machine_id = $machine_id\nORDER BY time\n",
           "refId": "A",
           "select": [
             [
               {
                 "params": [
-                  "utilisation"
+                  "value"
                 ],
                 "type": "column"
               }
             ]
           ],
-          "table": "hardware",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": "1m",
+      "title": "RAM Usage",
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "yrxo4LT4k"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "unverified": {
+                  "color": "red",
+                  "index": 0,
+                  "text": "Unverified"
+                },
+                "verified": {
+                  "color": "dark-green",
+                  "index": 1,
+                  "text": "Verified"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "max": 1,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "blue",
+                "value": null
+              }
+            ]
+          },
+          "unit": "percentunit"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 4,
+        "x": 12,
+        "y": 0
+      },
+      "hideTimeOverride": true,
+      "id": 41,
+      "maxDataPoints": 1,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "/^verification$/",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "yrxo4LT4k"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  time AS \"time\",\n  verification\nFROM machine\nWHERE\n  $__unixEpochFilter(time) AND\n  machine_id = $machine_id\nORDER BY time",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "reliability"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "machine",
+          "timeColumn": "time",
+          "timeColumnType": "int",
+          "where": [
+            {
+              "name": "$__unixEpochFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": "2m",
+      "title": "Verification Status",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "yrxo4LT4k"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "center",
+            "displayMode": "auto",
+            "filterable": false,
+            "inspect": false,
+            "minWidth": 150
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 4,
+        "x": 16,
+        "y": 0
+      },
+      "id": 36,
+      "options": {
+        "footer": {
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": false
+      },
+      "pluginVersion": "9.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "yrxo4LT4k"
+          },
+          "format": "table",
+          "group": [],
+          "hide": false,
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  time AS \"time\",\n  hostname\nFROM machine\nWHERE\n  $__unixEpochFilter(time) AND\n  machine_id = '$machine_id'\nORDER BY time",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "hostname"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "machine",
           "timeColumn": "time",
           "timeColumnType": "int",
           "where": [
@@ -288,14 +425,117 @@
               "type": "macro"
             },
             {
-              "datatype": "varchar",
+              "datatype": "int",
               "name": "",
               "params": [
-                "component",
+                "machine_id",
                 "=",
-                "'ram'"
+                "'$machine_id'"
               ],
               "type": "expression"
+            }
+          ]
+        }
+      ],
+      "title": "System Host Name",
+      "transformations": [
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "hostname": {
+                "aggregations": [],
+                "operation": "groupby"
+              }
+            }
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "yrxo4LT4k"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 2,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "blue",
+                "value": null
+              }
+            ]
+          },
+          "unit": "currencyUSD"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 20,
+        "y": 0
+      },
+      "id": 19,
+      "maxDataPoints": 1,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "value_and_name"
+      },
+      "pluginVersion": "9.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "yrxo4LT4k"
+          },
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "rawSql": "SELECT\n  time AS \"time\",\n  account_credit AS \"Account credit\"\nFROM machine\nWHERE\n  $__unixEpochFilter(time) AND\n  machine_id = $machine_id\nORDER BY time",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "account_credit"
+                ],
+                "type": "column"
+              },
+              {
+                "params": [
+                  "Account credit"
+                ],
+                "type": "alias"
+              }
+            ]
+          ],
+          "table": "machine",
+          "timeColumn": "time",
+          "timeColumnType": "int",
+          "where": [
+            {
+              "name": "$__unixEpochFilter",
+              "params": [],
+              "type": "macro"
             },
             {
               "datatype": "int",
@@ -310,14 +550,834 @@
           ]
         }
       ],
-      "timeFrom": "1m",
-      "title": "RAM Usage",
+      "timeFrom": "2m",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "yrxo4LT4k"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "max": 1,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "blue",
+                "value": null
+              }
+            ]
+          },
+          "unit": "percentunit"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 4,
+        "x": 12,
+        "y": 2
+      },
+      "hideTimeOverride": true,
+      "id": 32,
+      "maxDataPoints": 1,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "yrxo4LT4k"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  time AS \"time\",\n  reliability\nFROM machine\nWHERE\n  $__unixEpochFilter(time) AND\n  machine_id = $machine_id\nORDER BY time",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "reliability"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "machine",
+          "timeColumn": "time",
+          "timeColumnType": "int",
+          "where": [
+            {
+              "name": "$__unixEpochFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": "2m",
+      "title": "Reliability",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "aifXq6JVk"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "currencyUSD"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 4,
+        "x": 16,
+        "y": 2
+      },
+      "id": 43,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "aifXq6JVk"
+          },
+          "editorMode": "builder",
+          "expr": "vastai_machine_ondemand_price_per_gpu_dollars{machine_id=\"$machine_id\"}",
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "OnDemand Price/gpu",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "yrxo4LT4k"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 1,
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 70
+              },
+              {
+                "color": "red",
+                "value": 90
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 0,
+        "y": 3
+      },
+      "id": 22,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "text": {}
+      },
+      "pluginVersion": "9.3.2",
+      "targets": [
+        {
+          "dataset": "vast",
+          "datasource": {
+            "type": "mysql",
+            "uid": "yrxo4LT4k"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT\r\n  time AS \"time\",\r\n  component AS metric,\r\n  utilisation\r\nFROM hardware\r\nWHERE\r\n  $__unixEpochFilter(time) AND\r\n  component = 'disk_space' AND\r\n  machine_id = $machine_id\r\nORDER BY time",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "component",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "hardware"
+        }
+      ],
+      "title": "Disk Usage",
       "type": "gauge"
     },
     {
       "datasource": {
         "type": "mysql",
-        "uid": "${DS_MYSQL}"
+        "uid": "yrxo4LT4k"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "watth"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 6,
+        "y": 3
+      },
+      "hideTimeOverride": true,
+      "id": 18,
+      "maxDataPoints": 1,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "yrxo4LT4k"
+          },
+          "editorMode": "code",
+          "format": "time_series",
+          "group": [
+            {
+              "params": [
+                "1s",
+                "none"
+              ],
+              "type": "time"
+            }
+          ],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  $__unixEpochGroupAlias(time,1s),\n  sum(power_consumption) + $power_offset AS \"power_consumption\"\nFROM hardware\nWHERE\n  $__unixEpochFilter(time) AND\n  machine_id = '$machine_id'\nGROUP BY 1\nORDER BY $__unixEpochGroup(time,1s)",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "power_consumption"
+                ],
+                "type": "column"
+              },
+              {
+                "params": [
+                  "sum"
+                ],
+                "type": "aggregate"
+              },
+              {
+                "params": [
+                  "power_consumption"
+                ],
+                "type": "alias"
+              }
+            ]
+          ],
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "hardware",
+          "timeColumn": "time",
+          "timeColumnType": "int",
+          "where": [
+            {
+              "name": "$__unixEpochFilter",
+              "params": [],
+              "type": "macro"
+            },
+            {
+              "name": "",
+              "params": [
+                "machine_id",
+                "=",
+                "'$machine_id'"
+              ],
+              "type": "expression"
+            }
+          ]
+        }
+      ],
+      "timeFrom": "5m",
+      "title": "Power draw",
+      "transformations": [],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "yrxo4LT4k"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "dtdhms"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "FROM_UNIXTIME(end_date)"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "dateTimeAsLocal"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 4,
+        "x": 12,
+        "y": 4
+      },
+      "id": 45,
+      "options": {
+        "colorMode": "none",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^FROM_UNIXTIME\\(end_date\\)$/",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.2",
+      "targets": [
+        {
+          "dataset": "vast",
+          "datasource": {
+            "type": "mysql",
+            "uid": "yrxo4LT4k"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT\r\n  time AS \"time\",\r\n  FROM_UNIXTIME(end_date)\r\nFROM machine\r\nWHERE\r\n  $__unixEpochFilter(time) AND\r\n  machine_id = $machine_id",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "end_date",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "machine"
+        }
+      ],
+      "title": "End Date",
+      "transformations": [],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "yrxo4LT4k"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 2,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 0.3
+              },
+              {
+                "color": "blue",
+                "value": 0.45
+              },
+              {
+                "color": "green",
+                "value": 0.5
+              }
+            ]
+          },
+          "unit": "currencyUSD"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 20,
+        "y": 4
+      },
+      "id": 26,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "yrxo4LT4k"
+          },
+          "format": "time_series",
+          "group": [],
+          "hide": false,
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  time AS \"time\",\n  earn_hour * 0.75 AS \"earn_hour\"\nFROM machine\nWHERE\n  $__unixEpochFilter(time) AND\n  machine_id = $machine_id\nORDER BY time",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "earn_hour"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "machine",
+          "timeColumn": "time",
+          "timeColumnType": "int",
+          "where": [
+            {
+              "name": "$__unixEpochFilter",
+              "params": [],
+              "type": "macro"
+            },
+            {
+              "datatype": "int",
+              "name": "",
+              "params": [
+                "machine_id",
+                "=",
+                "$machine_id"
+              ],
+              "type": "expression"
+            }
+          ]
+        }
+      ],
+      "title": "Avg Earnings per Hour",
+      "transformations": [],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "yrxo4LT4k"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 2,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "currencyUSD"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 0,
+        "y": 6
+      },
+      "id": 28,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "value_and_name"
+      },
+      "pluginVersion": "9.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "yrxo4LT4k"
+          },
+          "format": "time_series",
+          "group": [
+            {
+              "params": [
+                "1s",
+                "none"
+              ],
+              "type": "time"
+            }
+          ],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  $__unixEpochGroupAlias(time,1s),\n  (((sum(power_consumption) + $power_offset) / 1000) * $power_cost) * ((($__to - $__from) / 1000) / 60 / 60)  AS \"Power Cost      \"\nFROM hardware\nWHERE\n  $__unixEpochFilter(time) and\n  machine_id = $machine_id\nGROUP BY 1\nORDER BY $__unixEpochGroup(time,1s)",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "power_consumption"
+                ],
+                "type": "column"
+              },
+              {
+                "params": [
+                  "sum"
+                ],
+                "type": "aggregate"
+              },
+              {
+                "params": [
+                  "power_consumption"
+                ],
+                "type": "alias"
+              }
+            ]
+          ],
+          "table": "hardware",
+          "timeColumn": "time",
+          "timeColumnType": "int",
+          "where": [
+            {
+              "name": "$__unixEpochFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "transformations": [],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "yrxo4LT4k"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "currencyUSD"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 6,
+        "y": 6
+      },
+      "hideTimeOverride": false,
+      "id": 30,
+      "interval": "1h",
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "value_and_name"
+      },
+      "pluginVersion": "9.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "yrxo4LT4k"
+          },
+          "format": "time_series",
+          "group": [
+            {
+              "params": [
+                "1s",
+                "none"
+              ],
+              "type": "time"
+            }
+          ],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  $__unixEpochGroupAlias(time,1s),\n  ((sum(power_consumption) + $power_offset) / 1000) * $power_cost AS \"Avg. Power cost p/h\"\nFROM hardware\nWHERE\n  $__unixEpochFilter(time)\n  and machine_id = $machine_id\nGROUP BY 1\nORDER BY $__unixEpochGroup(time,1s)",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "power_consumption"
+                ],
+                "type": "column"
+              },
+              {
+                "params": [
+                  "sum"
+                ],
+                "type": "aggregate"
+              },
+              {
+                "params": [
+                  "power_consumption"
+                ],
+                "type": "alias"
+              }
+            ]
+          ],
+          "table": "hardware",
+          "timeColumn": "time",
+          "timeColumnType": "int",
+          "where": [
+            {
+              "name": "$__unixEpochFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "transformations": [],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "yrxo4LT4k"
       },
       "description": "",
       "fieldConfig": {
@@ -340,7 +1400,7 @@
         "h": 4,
         "w": 8,
         "x": 12,
-        "y": 0
+        "y": 6
       },
       "id": 9,
       "maxDataPoints": 1,
@@ -359,12 +1419,12 @@
         "showUnfilled": true,
         "text": {}
       },
-      "pluginVersion": "9.0.0",
+      "pluginVersion": "9.3.2",
       "targets": [
         {
           "datasource": {
             "type": "mysql",
-            "uid": "${DS_MYSQL}"
+            "uid": "yrxo4LT4k"
           },
           "format": "time_series",
           "group": [],
@@ -440,7 +1500,7 @@
         {
           "datasource": {
             "type": "mysql",
-            "uid": "${DS_MYSQL}"
+            "uid": "yrxo4LT4k"
           },
           "format": "table",
           "group": [],
@@ -471,7 +1531,7 @@
     {
       "datasource": {
         "type": "mysql",
-        "uid": "${DS_MYSQL}"
+        "uid": "yrxo4LT4k"
       },
       "description": "",
       "fieldConfig": {
@@ -479,464 +1539,26 @@
           "color": {
             "mode": "thresholds"
           },
-          "custom": {
-            "align": "center",
-            "displayMode": "auto",
-            "filterable": false,
-            "inspect": false,
-            "minWidth": 150
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 4,
-        "x": 20,
-        "y": 0
-      },
-      "id": 36,
-      "options": {
-        "footer": {
-          "fields": "",
-          "reducer": [
-            "sum"
-          ],
-          "show": false
-        },
-        "showHeader": false
-      },
-      "pluginVersion": "9.0.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "mysql",
-            "uid": "${DS_MYSQL}"
-          },
-          "format": "table",
-          "group": [],
-          "hide": false,
-          "metricColumn": "none",
-          "rawQuery": true,
-          "rawSql": "SELECT\n  time AS \"time\",\n  hostname\nFROM machine\nWHERE\n  $__unixEpochFilter(time) AND\n  machine_id = '$machine_id'\nORDER BY time",
-          "refId": "A",
-          "select": [
-            [
-              {
-                "params": [
-                  "hostname"
-                ],
-                "type": "column"
-              }
-            ]
-          ],
-          "table": "machine",
-          "timeColumn": "time",
-          "timeColumnType": "int",
-          "where": [
-            {
-              "name": "$__unixEpochFilter",
-              "params": [],
-              "type": "macro"
-            },
-            {
-              "datatype": "int",
-              "name": "",
-              "params": [
-                "machine_id",
-                "=",
-                "'$machine_id'"
-              ],
-              "type": "expression"
-            }
-          ]
-        }
-      ],
-      "title": "System Host Name",
-      "transformations": [
-        {
-          "id": "groupBy",
-          "options": {
-            "fields": {
-              "hostname": {
-                "aggregations": [],
-                "operation": "groupby"
-              }
-            }
-          }
-        }
-      ],
-      "type": "table"
-    },
-    {
-      "datasource": {
-        "type": "mysql",
-        "uid": "${DS_MYSQL}"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
           "decimals": 2,
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "blue",
-                "value": null
-              }
-            ]
-          },
-          "unit": "currencyUSD"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 4,
-        "x": 20,
-        "y": 3
-      },
-      "id": 19,
-      "maxDataPoints": 1,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "last"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "text": {},
-        "textMode": "value_and_name"
-      },
-      "pluginVersion": "9.0.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "mysql",
-            "uid": "${DS_MYSQL}"
-          },
-          "format": "time_series",
-          "group": [],
-          "metricColumn": "none",
-          "rawQuery": false,
-          "rawSql": "SELECT\n  time AS \"time\",\n  account_credit AS \"Account credit\"\nFROM machine\nWHERE\n  $__unixEpochFilter(time) AND\n  machine_id = $machine_id\nORDER BY time",
-          "refId": "A",
-          "select": [
-            [
-              {
-                "params": [
-                  "account_credit"
-                ],
-                "type": "column"
-              },
-              {
-                "params": [
-                  "Account credit"
-                ],
-                "type": "alias"
-              }
-            ]
-          ],
-          "table": "machine",
-          "timeColumn": "time",
-          "timeColumnType": "int",
-          "where": [
-            {
-              "name": "$__unixEpochFilter",
-              "params": [],
-              "type": "macro"
-            },
-            {
-              "datatype": "int",
-              "name": "",
-              "params": [
-                "machine_id",
-                "=",
-                "$machine_id"
-              ],
-              "type": "expression"
-            }
-          ]
-        }
-      ],
-      "timeFrom": "2m",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "mysql",
-        "uid": "${DS_MYSQL}"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "decimals": 1,
-          "mappings": [],
-          "max": 100,
-          "min": 0,
-          "thresholds": {
-            "mode": "percentage",
-            "steps": [
-              {
-                "color": "green",
+                "color": "red",
                 "value": null
               },
               {
                 "color": "#EAB839",
-                "value": 70
-              },
-              {
-                "color": "red",
-                "value": 90
-              }
-            ]
-          },
-          "unit": "percent"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 6,
-        "x": 0,
-        "y": 4
-      },
-      "id": 22,
-      "options": {
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "last"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true,
-        "text": {}
-      },
-      "pluginVersion": "9.0.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "mysql",
-            "uid": "${DS_MYSQL}"
-          },
-          "format": "time_series",
-          "group": [],
-          "metricColumn": "component",
-          "rawQuery": false,
-          "rawSql": "SELECT\n  time AS \"time\",\n  component AS metric,\n  utilisation\nFROM hardware\nWHERE\n  $__unixEpochFilter(time) AND\n  component = 'disk_space' AND\n  machine_id = $machine_id\nORDER BY time",
-          "refId": "A",
-          "select": [
-            [
-              {
-                "params": [
-                  "utilisation"
-                ],
-                "type": "column"
-              }
-            ]
-          ],
-          "table": "hardware",
-          "timeColumn": "time",
-          "timeColumnType": "int",
-          "where": [
-            {
-              "name": "$__unixEpochFilter",
-              "params": [],
-              "type": "macro"
-            },
-            {
-              "datatype": "varchar",
-              "name": "",
-              "params": [
-                "component",
-                "=",
-                "'disk_space'"
-              ],
-              "type": "expression"
-            },
-            {
-              "datatype": "int",
-              "name": "",
-              "params": [
-                "machine_id",
-                "=",
-                "$machine_id"
-              ],
-              "type": "expression"
-            }
-          ]
-        }
-      ],
-      "title": "Disk Usage",
-      "type": "gauge"
-    },
-    {
-      "datasource": {
-        "type": "mysql",
-        "uid": "${DS_MYSQL}"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "watth"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 6,
-        "x": 6,
-        "y": 4
-      },
-      "hideTimeOverride": true,
-      "id": 18,
-      "maxDataPoints": 1,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "text": {},
-        "textMode": "auto"
-      },
-      "pluginVersion": "9.0.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "mysql",
-            "uid": "${DS_MYSQL}"
-          },
-          "format": "time_series",
-          "group": [
-            {
-              "params": [
-                "1s",
-                "none"
-              ],
-              "type": "time"
-            }
-          ],
-          "metricColumn": "none",
-          "rawQuery": true,
-          "rawSql": "SELECT\n  $__unixEpochGroupAlias(time,1s),\n  sum(power_consumption) + $power_offset AS \"power_consumption\"\nFROM hardware\nWHERE\n  $__unixEpochFilter(time) AND\n  machine_id = '$machine_id'\nGROUP BY 1\nORDER BY $__unixEpochGroup(time,1s)",
-          "refId": "A",
-          "select": [
-            [
-              {
-                "params": [
-                  "power_consumption"
-                ],
-                "type": "column"
-              },
-              {
-                "params": [
-                  "sum"
-                ],
-                "type": "aggregate"
-              },
-              {
-                "params": [
-                  "power_consumption"
-                ],
-                "type": "alias"
-              }
-            ]
-          ],
-          "table": "hardware",
-          "timeColumn": "time",
-          "timeColumnType": "int",
-          "where": [
-            {
-              "name": "$__unixEpochFilter",
-              "params": [],
-              "type": "macro"
-            },
-            {
-              "name": "",
-              "params": [
-                "machine_id",
-                "=",
-                "'$machine_id'"
-              ],
-              "type": "expression"
-            }
-          ]
-        }
-      ],
-      "timeFrom": "5m",
-      "title": "Power draw",
-      "transformations": [],
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "mysql",
-        "uid": "${DS_MYSQL}"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "decimals": 2,
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "red",
-                "value": null
+                "value": 6
               },
               {
                 "color": "blue",
-                "value": 1
+                "value": 8
               },
               {
                 "color": "green",
-                "value": 5
+                "value": 10
               }
             ]
           },
@@ -945,116 +1567,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 6,
+        "h": 5,
         "w": 4,
-        "x": 12,
-        "y": 4
-      },
-      "id": 26,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "text": {},
-        "textMode": "auto"
-      },
-      "pluginVersion": "9.0.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "mysql",
-            "uid": "${DS_MYSQL}"
-          },
-          "format": "time_series",
-          "group": [],
-          "hide": false,
-          "metricColumn": "none",
-          "rawQuery": false,
-          "rawSql": "SELECT\n  time AS \"time\",\n  earn_hour\nFROM machine\nWHERE\n  $__unixEpochFilter(time) AND\n  machine_id = $machine_id\nORDER BY time",
-          "refId": "A",
-          "select": [
-            [
-              {
-                "params": [
-                  "earn_hour"
-                ],
-                "type": "column"
-              }
-            ]
-          ],
-          "table": "machine",
-          "timeColumn": "time",
-          "timeColumnType": "int",
-          "where": [
-            {
-              "name": "$__unixEpochFilter",
-              "params": [],
-              "type": "macro"
-            },
-            {
-              "datatype": "int",
-              "name": "",
-              "params": [
-                "machine_id",
-                "=",
-                "$machine_id"
-              ],
-              "type": "expression"
-            }
-          ]
-        }
-      ],
-      "title": "Avg Earnings per Hour",
-      "transformations": [],
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "mysql",
-        "uid": "${DS_MYSQL}"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "decimals": 2,
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "red",
-                "value": null
-              },
-              {
-                "color": "blue",
-                "value": 1
-              },
-              {
-                "color": "green",
-                "value": 5
-              }
-            ]
-          },
-          "unit": "currencyUSD"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 6,
-        "w": 4,
-        "x": 16,
-        "y": 4
+        "x": 20,
+        "y": 8
       },
       "id": 37,
       "options": {
@@ -1072,19 +1588,19 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "9.0.0",
+      "pluginVersion": "9.3.2",
       "targets": [
         {
           "datasource": {
             "type": "mysql",
-            "uid": "${DS_MYSQL}"
+            "uid": "yrxo4LT4k"
           },
           "format": "time_series",
           "group": [],
           "hide": false,
           "metricColumn": "none",
-          "rawQuery": false,
-          "rawSql": "SELECT\n  time AS \"time\",\n  earn_day\nFROM machine\nWHERE\n  $__unixEpochFilter(time) AND\n  machine_id = $machine_id\nORDER BY time",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  time AS \"time\",\n  earn_day * 0.75 AS \"earn_day\"\nFROM machine\nWHERE\n  $__unixEpochFilter(time) AND\n  machine_id = $machine_id\nORDER BY time",
           "refId": "A",
           "select": [
             [
@@ -1124,100 +1640,45 @@
     },
     {
       "datasource": {
-        "type": "mysql",
-        "uid": "${DS_MYSQL}"
+        "type": "influxdb",
+        "uid": "UzBM4Lo4z"
       },
       "description": "",
       "fieldConfig": {
         "defaults": {
-          "mappings": [],
-          "max": 1,
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "blue",
-                "value": null
-              }
-            ]
+          "color": {
+            "mode": "palette-classic"
           },
-          "unit": "percentunit"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 4,
-        "x": 20,
-        "y": 7
-      },
-      "hideTimeOverride": true,
-      "id": 32,
-      "maxDataPoints": 1,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "last"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "text": {},
-        "textMode": "auto"
-      },
-      "pluginVersion": "9.0.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "mysql",
-            "uid": "${DS_MYSQL}"
-          },
-          "format": "table",
-          "group": [],
-          "metricColumn": "none",
-          "rawQuery": false,
-          "rawSql": "SELECT\n  time AS \"time\",\n  reliability\nFROM machine\nWHERE\n  $__unixEpochFilter(time)\nORDER BY time",
-          "refId": "A",
-          "select": [
-            [
-              {
-                "params": [
-                  "reliability"
-                ],
-                "type": "column"
-              }
-            ]
-          ],
-          "table": "machine",
-          "timeColumn": "time",
-          "timeColumnType": "int",
-          "where": [
-            {
-              "name": "$__unixEpochFilter",
-              "params": [],
-              "type": "macro"
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
             }
-          ]
-        }
-      ],
-      "timeFrom": "2m",
-      "title": "Reliability",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "mysql",
-        "uid": "${DS_MYSQL}"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "decimals": 2,
+          },
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -1225,518 +1686,479 @@
               {
                 "color": "green",
                 "value": null
-              }
-            ]
-          },
-          "unit": "currencyUSD"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 6,
-        "x": 0,
-        "y": 8
-      },
-      "id": 28,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "last"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "text": {},
-        "textMode": "value_and_name"
-      },
-      "pluginVersion": "9.0.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "mysql",
-            "uid": "${DS_MYSQL}"
-          },
-          "format": "time_series",
-          "group": [
-            {
-              "params": [
-                "1s",
-                "none"
-              ],
-              "type": "time"
-            }
-          ],
-          "metricColumn": "none",
-          "rawQuery": true,
-          "rawSql": "SELECT\n  $__unixEpochGroupAlias(time,1s),\n  (((sum(power_consumption) + $power_offset) / 1000) * $power_cost) * ((($__to - $__from) / 1000) / 60 / 60)  AS \"Power Cost      \"\nFROM hardware\nWHERE\n  $__unixEpochFilter(time) and\n  machine_id = $machine_id\nGROUP BY 1\nORDER BY $__unixEpochGroup(time,1s)",
-          "refId": "A",
-          "select": [
-            [
-              {
-                "params": [
-                  "power_consumption"
-                ],
-                "type": "column"
               },
               {
-                "params": [
-                  "sum"
-                ],
-                "type": "aggregate"
-              },
-              {
-                "params": [
-                  "power_consumption"
-                ],
-                "type": "alias"
-              }
-            ]
-          ],
-          "table": "hardware",
-          "timeColumn": "time",
-          "timeColumnType": "int",
-          "where": [
-            {
-              "name": "$__unixEpochFilter",
-              "params": [],
-              "type": "macro"
-            }
-          ]
-        }
-      ],
-      "transformations": [],
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "mysql",
-        "uid": "${DS_MYSQL}"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
+                "color": "red",
+                "value": 80
               }
             ]
           },
-          "unit": "currencyUSD"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 6,
-        "x": 6,
-        "y": 8
-      },
-      "hideTimeOverride": false,
-      "id": 30,
-      "interval": "1h",
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "mean"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "text": {},
-        "textMode": "value_and_name"
-      },
-      "pluginVersion": "9.0.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "mysql",
-            "uid": "${DS_MYSQL}"
-          },
-          "format": "time_series",
-          "group": [
-            {
-              "params": [
-                "1s",
-                "none"
-              ],
-              "type": "time"
-            }
-          ],
-          "metricColumn": "none",
-          "rawQuery": true,
-          "rawSql": "SELECT\n  $__unixEpochGroupAlias(time,1s),\n  ((sum(power_consumption) + $power_offset) / 1000) * $power_cost AS \"Avg. Power cost p/h\"\nFROM hardware\nWHERE\n  $__unixEpochFilter(time)\n  and machine_id = $machine_id\nGROUP BY 1\nORDER BY $__unixEpochGroup(time,1s)",
-          "refId": "A",
-          "select": [
-            [
-              {
-                "params": [
-                  "power_consumption"
-                ],
-                "type": "column"
-              },
-              {
-                "params": [
-                  "sum"
-                ],
-                "type": "aggregate"
-              },
-              {
-                "params": [
-                  "power_consumption"
-                ],
-                "type": "alias"
-              }
-            ]
-          ],
-          "table": "hardware",
-          "timeColumn": "time",
-          "timeColumnType": "int",
-          "where": [
-            {
-              "name": "$__unixEpochFilter",
-              "params": [],
-              "type": "macro"
-            }
-          ]
-        }
-      ],
-      "transformations": [],
-      "type": "stat"
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": {
-        "type": "mysql",
-        "uid": "${DS_MYSQL}"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "unit": "percentunit"
-        },
-        "overrides": []
-      },
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 10
-      },
-      "hiddenSeries": false,
-      "id": 8,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "connected",
-      "options": {
-        "alertThreshold": true
-      },
-      "percentage": false,
-      "pluginVersion": "9.0.0",
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "datasource": {
-            "type": "mysql",
-            "uid": "${DS_MYSQL}"
-          },
-          "format": "table",
-          "group": [],
-          "metricColumn": "none",
-          "rawQuery": true,
-          "rawSql": "SELECT\n  time AS \"time\",\n  reliability\nFROM machine\nWHERE\n  $__unixEpochFilter(time) \n  AND\n  machine_id = $machine_id\nORDER BY time",
-          "refId": "A",
-          "select": [
-            [
-              {
-                "params": [
-                  "reliability"
-                ],
-                "type": "column"
-              }
-            ]
-          ],
-          "table": "machine",
-          "timeColumn": "time",
-          "timeColumnType": "int",
-          "where": [
-            {
-              "name": "$__unixEpochFilter",
-              "params": [],
-              "type": "macro"
-            }
-          ]
-        }
-      ],
-      "thresholds": [],
-      "timeRegions": [],
-      "title": "Reliability",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "mode": "time",
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "percentunit",
-          "logBase": 1,
-          "max": "1",
-          "min": "0.9",
-          "show": true
-        },
-        {
-          "format": "short",
-          "logBase": 1,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": {
-        "type": "mysql",
-        "uid": "${DS_MYSQL}"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
           "unit": "celsius"
         },
         "overrides": []
       },
-      "fill": 1,
-      "fillGradient": 0,
       "gridPos": {
-        "h": 7,
-        "w": 12,
+        "h": 5,
+        "w": 6,
         "x": 0,
-        "y": 11
+        "y": 9
       },
-      "hiddenSeries": false,
       "id": 13,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "null",
       "options": {
-        "alertThreshold": true
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
       },
-      "percentage": false,
-      "pluginVersion": "9.0.0",
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
+      "pluginVersion": "8.5.5",
       "targets": [
         {
+          "alias": "Cpu",
           "datasource": {
-            "type": "mysql",
-            "uid": "${DS_MYSQL}"
+            "type": "influxdb",
+            "uid": "qMwBOeunk"
           },
-          "format": "table",
-          "group": [],
-          "metricColumn": "none",
-          "rawQuery": false,
-          "rawSql": "SELECT\n  time AS \"time\",\n  temperature AS \"CPU\"\nFROM hardware\nWHERE\n  $__unixEpochFilter(time) AND\n  component = 'cpu' AND\n  machine_id = $machine_id\nORDER BY time",
-          "refId": "G",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "ipmi_sensor",
+          "orderByTime": "ASC",
+          "policy": "autogen",
+          "refId": "A",
+          "resultFormat": "time_series",
           "select": [
             [
               {
                 "params": [
-                  "temperature"
+                  "value"
                 ],
-                "type": "column"
+                "type": "field"
               },
               {
-                "params": [
-                  "CPU"
-                ],
-                "type": "alias"
+                "params": [],
+                "type": "last"
               }
             ]
           ],
-          "table": "hardware",
-          "timeColumn": "time",
-          "timeColumnType": "int",
-          "where": [
+          "tags": [
             {
-              "name": "$__unixEpochFilter",
-              "params": [],
-              "type": "macro"
-            },
-            {
-              "datatype": "varchar",
-              "name": "",
-              "params": [
-                "component",
-                "=",
-                "'cpu'"
-              ],
-              "type": "expression"
-            },
-            {
-              "datatype": "int",
-              "name": "",
-              "params": [
-                "machine_id",
-                "=",
-                "$machine_id"
-              ],
-              "type": "expression"
+              "key": "name",
+              "operator": "=",
+              "value": "cpu_temp"
             }
           ]
         },
         {
+          "alias": "Motherboard",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "qMwBOeunk"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "hide": false,
+          "measurement": "ipmi_sensor",
+          "orderByTime": "ASC",
+          "policy": "autogen",
+          "refId": "B",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "name",
+              "operator": "=",
+              "value": "mb_temp"
+            }
+          ]
+        },
+        {
+          "alias": "onboard 10g",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "qMwBOeunk"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "hide": false,
+          "measurement": "ipmi_sensor",
+          "orderByTime": "ASC",
+          "policy": "autogen",
+          "refId": "C",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "name",
+              "operator": "=",
+              "value": "onboard_lan_temp"
+            }
+          ]
+        }
+      ],
+      "title": "HW Temperatures",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "yrxo4LT4k"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "Temp",
+            "axisPlacement": "auto",
+            "axisSoftMax": 90,
+            "axisSoftMin": 20,
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 2,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "celsius"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "GPU 0"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "yellow",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "GPU 1"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "light-blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 6,
+        "y": 9
+      },
+      "id": 40,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
           "datasource": {
             "type": "mysql",
-            "uid": "${DS_MYSQL}"
+            "uid": "yrxo4LT4k"
           },
+          "editorMode": "code",
           "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT\r\n  time AS \"time\",\r\n  temperature AS \"GPU 0\"\r\nFROM hardware\r\nWHERE\r\n  $__unixEpochFilter(time) AND\r\n  component = 'gpu' AND\r\n  hw_id = 0 AND\r\n  machine_id = $machine_id\r\nORDER BY time",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        },
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "yrxo4LT4k"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "hide": false,
+          "rawQuery": true,
+          "rawSql": "SELECT\r\n  time AS \"time\",\r\n  temperature AS \"GPU 1\"\r\nFROM hardware\r\nWHERE\r\n  $__unixEpochFilter(time) AND\r\n  component = 'gpu' AND\r\n  hw_id = 1 AND\r\n  machine_id = $machine_id\r\nORDER BY time",
+          "refId": "B",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "GPU Temp",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "yrxo4LT4k"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "max": 1,
+          "min": 0.5,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percentunit"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 8,
+        "x": 12,
+        "y": 10
+      },
+      "id": 8,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "8.5.4",
+      "targets": [
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "yrxo4LT4k"
+          },
+          "editorMode": "code",
+          "format": "time_series",
           "group": [],
           "metricColumn": "none",
-          "rawQuery": false,
-          "rawSql": "SELECT\n  time AS \"time\",\n  temperature AS \"GPU 0\"\nFROM hardware\nWHERE\n  $__unixEpochFilter(time) AND\n  component = 'gpu' AND\n  hw_id = 0 AND\n  machine_id = $machine_id\nORDER BY time",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  time AS \"time\",\n  reliability\nFROM machine\nWHERE\n  $__unixEpochFilter(time) AND\n  machine_id = $machine_id\nORDER BY time",
           "refId": "A",
           "select": [
             [
               {
                 "params": [
-                  "temperature"
+                  "reliability"
                 ],
                 "type": "column"
-              },
-              {
-                "params": [
-                  "GPU 0"
-                ],
-                "type": "alias"
               }
             ]
           ],
-          "table": "hardware",
-          "timeColumn": "time",
-          "timeColumnType": "int",
-          "where": [
-            {
-              "name": "$__unixEpochFilter",
-              "params": [],
-              "type": "macro"
-            },
-            {
-              "datatype": "varchar",
-              "name": "",
-              "params": [
-                "component",
-                "=",
-                "'gpu'"
-              ],
-              "type": "expression"
-            },
-            {
-              "datatype": "varchar",
-              "name": "",
-              "params": [
-                "hw_id",
-                "=",
-                "0"
-              ],
-              "type": "expression"
-            },
-            {
-              "datatype": "int",
-              "name": "",
-              "params": [
-                "machine_id",
-                "=",
-                "$machine_id"
-              ],
-              "type": "expression"
-            }
-          ]
-        },
-        {
-          "datasource": {
-            "type": "mysql",
-            "uid": "${DS_MYSQL}"
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
           },
-          "format": "table",
-          "group": [],
-          "metricColumn": "none",
-          "rawQuery": false,
-          "rawSql": "SELECT\n  time AS \"time\",\n  temperature AS \"GPU 1\"\nFROM hardware\nWHERE\n  $__unixEpochFilter(time) AND\n  component = 'gpu' AND\n  hw_id = 1 AND\n  machine_id = $machine_id\nORDER BY time",
-          "refId": "B",
-          "select": [
-            [
-              {
-                "params": [
-                  "temperature"
-                ],
-                "type": "column"
-              },
-              {
-                "params": [
-                  "GPU 1"
-                ],
-                "type": "alias"
-              }
-            ]
-          ],
-          "table": "hardware",
+          "table": "machine",
           "timeColumn": "time",
           "timeColumnType": "int",
           "where": [
@@ -1744,539 +2166,191 @@
               "name": "$__unixEpochFilter",
               "params": [],
               "type": "macro"
-            },
-            {
-              "datatype": "varchar",
-              "name": "",
-              "params": [
-                "component",
-                "=",
-                "'gpu'"
-              ],
-              "type": "expression"
-            },
-            {
-              "datatype": "varchar",
-              "name": "",
-              "params": [
-                "hw_id",
-                "=",
-                "1"
-              ],
-              "type": "expression"
-            },
-            {
-              "datatype": "int",
-              "name": "",
-              "params": [
-                "machine_id",
-                "=",
-                "$machine_id"
-              ],
-              "type": "expression"
-            }
-          ]
-        },
-        {
-          "datasource": {
-            "type": "mysql",
-            "uid": "${DS_MYSQL}"
-          },
-          "format": "table",
-          "group": [],
-          "metricColumn": "none",
-          "rawQuery": false,
-          "rawSql": "SELECT\n  time AS \"time\",\n  temperature AS \"GPU 2\"\nFROM hardware\nWHERE\n  $__unixEpochFilter(time) AND\n  component = 'gpu' AND\n  hw_id = 2 AND\n  machine_id = $machine_id\nORDER BY time",
-          "refId": "C",
-          "select": [
-            [
-              {
-                "params": [
-                  "temperature"
-                ],
-                "type": "column"
-              },
-              {
-                "params": [
-                  "GPU 2"
-                ],
-                "type": "alias"
-              }
-            ]
-          ],
-          "table": "hardware",
-          "timeColumn": "time",
-          "timeColumnType": "int",
-          "where": [
-            {
-              "name": "$__unixEpochFilter",
-              "params": [],
-              "type": "macro"
-            },
-            {
-              "datatype": "varchar",
-              "name": "",
-              "params": [
-                "component",
-                "=",
-                "'gpu'"
-              ],
-              "type": "expression"
-            },
-            {
-              "datatype": "varchar",
-              "name": "",
-              "params": [
-                "hw_id",
-                "=",
-                "2"
-              ],
-              "type": "expression"
-            },
-            {
-              "datatype": "int",
-              "name": "",
-              "params": [
-                "machine_id",
-                "=",
-                "$machine_id"
-              ],
-              "type": "expression"
-            }
-          ]
-        },
-        {
-          "datasource": {
-            "type": "mysql",
-            "uid": "${DS_MYSQL}"
-          },
-          "format": "table",
-          "group": [],
-          "metricColumn": "none",
-          "rawQuery": false,
-          "rawSql": "SELECT\n  time AS \"time\",\n  temperature AS \"GPU 3\"\nFROM hardware\nWHERE\n  $__unixEpochFilter(time) AND\n  component = 'gpu' AND\n  hw_id = 3 AND\n  machine_id = $machine_id\nORDER BY time",
-          "refId": "D",
-          "select": [
-            [
-              {
-                "params": [
-                  "temperature"
-                ],
-                "type": "column"
-              },
-              {
-                "params": [
-                  "GPU 3"
-                ],
-                "type": "alias"
-              }
-            ]
-          ],
-          "table": "hardware",
-          "timeColumn": "time",
-          "timeColumnType": "int",
-          "where": [
-            {
-              "name": "$__unixEpochFilter",
-              "params": [],
-              "type": "macro"
-            },
-            {
-              "datatype": "varchar",
-              "name": "",
-              "params": [
-                "component",
-                "=",
-                "'gpu'"
-              ],
-              "type": "expression"
-            },
-            {
-              "datatype": "varchar",
-              "name": "",
-              "params": [
-                "hw_id",
-                "=",
-                "3"
-              ],
-              "type": "expression"
-            },
-            {
-              "datatype": "int",
-              "name": "",
-              "params": [
-                "machine_id",
-                "=",
-                "$machine_id"
-              ],
-              "type": "expression"
-            }
-          ]
-        },
-        {
-          "datasource": {
-            "type": "mysql",
-            "uid": "${DS_MYSQL}"
-          },
-          "format": "table",
-          "group": [],
-          "metricColumn": "none",
-          "rawQuery": false,
-          "rawSql": "SELECT\n  time AS \"time\",\n  temperature AS \"GPU 4\"\nFROM hardware\nWHERE\n  $__unixEpochFilter(time) AND\n  component = 'gpu' AND\n  hw_id = 4 AND\n  machine_id = $machine_id\nORDER BY time",
-          "refId": "E",
-          "select": [
-            [
-              {
-                "params": [
-                  "temperature"
-                ],
-                "type": "column"
-              },
-              {
-                "params": [
-                  "GPU 4"
-                ],
-                "type": "alias"
-              }
-            ]
-          ],
-          "table": "hardware",
-          "timeColumn": "time",
-          "timeColumnType": "int",
-          "where": [
-            {
-              "name": "$__unixEpochFilter",
-              "params": [],
-              "type": "macro"
-            },
-            {
-              "datatype": "varchar",
-              "name": "",
-              "params": [
-                "component",
-                "=",
-                "'gpu'"
-              ],
-              "type": "expression"
-            },
-            {
-              "datatype": "varchar",
-              "name": "",
-              "params": [
-                "hw_id",
-                "=",
-                "4"
-              ],
-              "type": "expression"
-            },
-            {
-              "datatype": "int",
-              "name": "",
-              "params": [
-                "machine_id",
-                "=",
-                "$machine_id"
-              ],
-              "type": "expression"
-            }
-          ]
-        },
-        {
-          "datasource": {
-            "type": "mysql",
-            "uid": "${DS_MYSQL}"
-          },
-          "format": "table",
-          "group": [],
-          "metricColumn": "none",
-          "rawQuery": false,
-          "rawSql": "SELECT\n  time AS \"time\",\n  temperature AS \"GPU 5\"\nFROM hardware\nWHERE\n  $__unixEpochFilter(time) AND\n  component = 'gpu' AND\n  hw_id = 5 AND\n  machine_id = $machine_id\nORDER BY time",
-          "refId": "F",
-          "select": [
-            [
-              {
-                "params": [
-                  "temperature"
-                ],
-                "type": "column"
-              },
-              {
-                "params": [
-                  "GPU 5"
-                ],
-                "type": "alias"
-              }
-            ]
-          ],
-          "table": "hardware",
-          "timeColumn": "time",
-          "timeColumnType": "int",
-          "where": [
-            {
-              "name": "$__unixEpochFilter",
-              "params": [],
-              "type": "macro"
-            },
-            {
-              "datatype": "varchar",
-              "name": "",
-              "params": [
-                "component",
-                "=",
-                "'gpu'"
-              ],
-              "type": "expression"
-            },
-            {
-              "datatype": "varchar",
-              "name": "",
-              "params": [
-                "hw_id",
-                "=",
-                "5"
-              ],
-              "type": "expression"
-            },
-            {
-              "datatype": "int",
-              "name": "",
-              "params": [
-                "machine_id",
-                "=",
-                "$machine_id"
-              ],
-              "type": "expression"
-            }
-          ]
-        },
-        {
-          "datasource": {
-            "type": "mysql",
-            "uid": "${DS_MYSQL}"
-          },
-          "format": "table",
-          "group": [],
-          "hide": false,
-          "metricColumn": "none",
-          "rawQuery": false,
-          "rawSql": "SELECT\n  time AS \"time\",\n  temperature AS \"GPU 6\"\nFROM hardware\nWHERE\n  $__unixEpochFilter(time) AND\n  component = 'gpu' AND\n  hw_id = 6 AND\n  machine_id = $machine_id\nORDER BY time",
-          "refId": "I",
-          "select": [
-            [
-              {
-                "params": [
-                  "temperature"
-                ],
-                "type": "column"
-              },
-              {
-                "params": [
-                  "GPU 6"
-                ],
-                "type": "alias"
-              }
-            ]
-          ],
-          "table": "hardware",
-          "timeColumn": "time",
-          "timeColumnType": "int",
-          "where": [
-            {
-              "name": "$__unixEpochFilter",
-              "params": [],
-              "type": "macro"
-            },
-            {
-              "datatype": "varchar",
-              "name": "",
-              "params": [
-                "component",
-                "=",
-                "'gpu'"
-              ],
-              "type": "expression"
-            },
-            {
-              "datatype": "varchar",
-              "name": "",
-              "params": [
-                "hw_id",
-                "=",
-                "6"
-              ],
-              "type": "expression"
-            },
-            {
-              "datatype": "int",
-              "name": "",
-              "params": [
-                "machine_id",
-                "=",
-                "$machine_id"
-              ],
-              "type": "expression"
-            }
-          ]
-        },
-        {
-          "datasource": {
-            "type": "mysql",
-            "uid": "${DS_MYSQL}"
-          },
-          "format": "table",
-          "group": [],
-          "metricColumn": "none",
-          "rawQuery": false,
-          "rawSql": "SELECT\n  time AS \"time\",\n  temperature AS \"GPU 7\"\nFROM hardware\nWHERE\n  $__unixEpochFilter(time) AND\n  component = 'gpu' AND\n  hw_id = 7 AND\n  machine_id = $machine_id\nORDER BY time",
-          "refId": "H",
-          "select": [
-            [
-              {
-                "params": [
-                  "temperature"
-                ],
-                "type": "column"
-              },
-              {
-                "params": [
-                  "GPU 7"
-                ],
-                "type": "alias"
-              }
-            ]
-          ],
-          "table": "hardware",
-          "timeColumn": "time",
-          "timeColumnType": "int",
-          "where": [
-            {
-              "name": "$__unixEpochFilter",
-              "params": [],
-              "type": "macro"
-            },
-            {
-              "datatype": "varchar",
-              "name": "",
-              "params": [
-                "component",
-                "=",
-                "'gpu'"
-              ],
-              "type": "expression"
-            },
-            {
-              "datatype": "varchar",
-              "name": "",
-              "params": [
-                "hw_id",
-                "=",
-                "7"
-              ],
-              "type": "expression"
-            },
-            {
-              "datatype": "int",
-              "name": "",
-              "params": [
-                "machine_id",
-                "=",
-                "$machine_id"
-              ],
-              "type": "expression"
             }
           ]
         }
       ],
-      "thresholds": [],
-      "timeRegions": [],
-      "title": "Temperatures",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "mode": "time",
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "celsius",
-          "logBase": 1,
-          "show": true
-        },
-        {
-          "format": "short",
-          "logBase": 1,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false
-      }
+      "title": "Reliability",
+      "type": "timeseries"
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": {
         "type": "mysql",
-        "uid": "${DS_MYSQL}"
+        "uid": "yrxo4LT4k"
       },
-      "description": "",
       "fieldConfig": {
         "defaults": {
-          "unit": "watt"
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "decbytes"
         },
         "overrides": []
       },
-      "fill": 1,
-      "fillGradient": 0,
       "gridPos": {
-        "h": 7,
-        "w": 12,
-        "x": 0,
-        "y": 18
+        "h": 4,
+        "w": 4,
+        "x": 20,
+        "y": 13
       },
-      "hiddenSeries": false,
-      "id": 20,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "null",
+      "id": 38,
       "options": {
-        "alertThreshold": true
+        "colorMode": "none",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "sum"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
       },
-      "percentage": false,
-      "pluginVersion": "9.0.0",
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
+      "pluginVersion": "9.3.2",
       "targets": [
         {
           "datasource": {
             "type": "mysql",
-            "uid": "${DS_MYSQL}"
+            "uid": "yrxo4LT4k"
           },
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  time AS \"time\",\n   abs ( ( utilisation - LAG(utilisation,5) OVER ( PARTITION BY machine_id ORDER BY time) ) / \n   (  time - LAG(time,5) OVER (PARTITION BY machine_id ORDER BY time) ) ) time_usage\nFROM hardware\nWHERE\n  $__unixEpochFilter(time) AND\n  component = 'network' AND\n  machine_id = $machine_id\nORDER BY time\n",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Network Data Usage Total",
+      "transformations": [],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "yrxo4LT4k"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisSoftMax": 550,
+            "axisSoftMin": 0,
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "watt"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 0,
+        "y": 14
+      },
+      "id": 20,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "8.5.5",
+      "targets": [
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "yrxo4LT4k"
+          },
+          "editorMode": "code",
           "format": "table",
           "group": [],
           "metricColumn": "none",
-          "rawQuery": false,
+          "rawQuery": true,
           "rawSql": "SELECT\n  time AS \"time\",\n  power_consumption AS \"CPU\"\nFROM hardware\nWHERE\n  $__unixEpochFilter(time) AND\n  component = 'cpu' AND\n  machine_id = $machine_id\nORDER BY time",
           "refId": "G",
           "select": [
@@ -2295,6 +2369,23 @@
               }
             ]
           ],
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
           "table": "hardware",
           "timeColumn": "time",
           "timeColumnType": "int",
@@ -2329,7 +2420,7 @@
         {
           "datasource": {
             "type": "mysql",
-            "uid": "${DS_MYSQL}"
+            "uid": "yrxo4LT4k"
           },
           "format": "table",
           "group": [],
@@ -2397,7 +2488,7 @@
         {
           "datasource": {
             "type": "mysql",
-            "uid": "${DS_MYSQL}"
+            "uid": "yrxo4LT4k"
           },
           "format": "table",
           "group": [],
@@ -2465,7 +2556,7 @@
         {
           "datasource": {
             "type": "mysql",
-            "uid": "${DS_MYSQL}"
+            "uid": "yrxo4LT4k"
           },
           "format": "table",
           "group": [],
@@ -2533,13 +2624,13 @@
         {
           "datasource": {
             "type": "mysql",
-            "uid": "${DS_MYSQL}"
+            "uid": "yrxo4LT4k"
           },
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": false,
-          "rawSql": "SELECT\n  time AS \"time\",\n  power_consumption AS \"GPU 3\"\nFROM hardware\nWHERE\n  $__unixEpochFilter(time) AND\n  component = 'gpu' AND\n  hw_id = 3 AND\n  machine_id = $machine_id\nORDER BY time",
+          "rawSql": "SELECT\n  time AS \"time\",\n  power_consumption AS \"GPU 4\"\nFROM hardware\nWHERE\n  $__unixEpochFilter(time) AND\n  component = 'gpu' AND\n  hw_id = 4 AND\n  machine_id = $machine_id\nORDER BY time",
           "refId": "D",
           "select": [
             [
@@ -2551,7 +2642,7 @@
               },
               {
                 "params": [
-                  "GPU 3"
+                  "GPU 4"
                 ],
                 "type": "alias"
               }
@@ -2582,7 +2673,7 @@
               "params": [
                 "hw_id",
                 "=",
-                "3"
+                "4"
               ],
               "type": "expression"
             },
@@ -2601,7 +2692,7 @@
         {
           "datasource": {
             "type": "mysql",
-            "uid": "${DS_MYSQL}"
+            "uid": "yrxo4LT4k"
           },
           "format": "table",
           "group": [],
@@ -2669,7 +2760,7 @@
         {
           "datasource": {
             "type": "mysql",
-            "uid": "${DS_MYSQL}"
+            "uid": "yrxo4LT4k"
           },
           "format": "table",
           "group": [],
@@ -2737,7 +2828,7 @@
         {
           "datasource": {
             "type": "mysql",
-            "uid": "${DS_MYSQL}"
+            "uid": "yrxo4LT4k"
           },
           "format": "table",
           "group": [],
@@ -2805,7 +2896,7 @@
         {
           "datasource": {
             "type": "mysql",
-            "uid": "${DS_MYSQL}"
+            "uid": "yrxo4LT4k"
           },
           "format": "table",
           "group": [],
@@ -2872,40 +2963,13 @@
           ]
         }
       ],
-      "thresholds": [],
-      "timeRegions": [],
       "title": "Power draw",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "mode": "time",
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "watt",
-          "logBase": 1,
-          "show": true
-        },
-        {
-          "format": "short",
-          "logBase": 1,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false
-      }
+      "type": "timeseries"
     },
     {
       "datasource": {
         "type": "mysql",
-        "uid": "${DS_MYSQL}"
+        "uid": "yrxo4LT4k"
       },
       "fieldConfig": {
         "defaults": {
@@ -2913,9 +2977,11 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
-            "axisSoftMax": 100000,
+            "axisSoftMax": 10000,
             "axisSoftMin": 0,
             "barAlignment": 0,
             "drawStyle": "line",
@@ -2926,7 +2992,7 @@
               "tooltip": false,
               "viz": false
             },
-            "lineInterpolation": "smooth",
+            "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
             "scaleDistribution": {
@@ -2958,16 +3024,17 @@
       },
       "gridPos": {
         "h": 7,
-        "w": 12,
+        "w": 8,
         "x": 12,
-        "y": 18
+        "y": 14
       },
       "id": 34,
       "options": {
         "legend": {
           "calcs": [],
           "displayMode": "list",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
           "mode": "single",
@@ -2979,53 +3046,30 @@
         {
           "datasource": {
             "type": "mysql",
-            "uid": "${DS_MYSQL}"
+            "uid": "yrxo4LT4k"
           },
           "format": "time_series",
           "group": [],
-          "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n  time AS \"time\",\n   abs ( ( utilisation - LAG(utilisation,5) OVER ( PARTITION BY machine_id ORDER BY time) ) / \n   (  time - LAG(time,5) OVER (PARTITION BY machine_id ORDER BY time) ) ) time_usage\nFROM hardware\nWHERE\n  $__unixEpochFilter(time) AND\n  component = 'network' AND\n  machine_id = $machine_id\nORDER BY time ",
+          "rawSql": "SELECT\n  time AS \"time\",\n   abs ( ( utilisation - LAG(utilisation,5) OVER ( PARTITION BY machine_id ORDER BY time) ) / \n   (  time - LAG(time,5) OVER (PARTITION BY machine_id ORDER BY time) ) ) time_usage\nFROM hardware\nWHERE\n  $__unixEpochFilter(time) AND\n  component = 'network' AND\n  machine_id = $machine_id\nORDER BY time\n",
           "refId": "A",
           "select": [
             [
               {
                 "params": [
-                  "utilisation"
+                  "value"
                 ],
                 "type": "column"
               }
             ]
           ],
-          "table": "hardware",
           "timeColumn": "time",
-          "timeColumnType": "int",
           "where": [
             {
-              "name": "$__unixEpochFilter",
+              "name": "$__timeFilter",
               "params": [],
               "type": "macro"
-            },
-            {
-              "datatype": "varchar",
-              "name": "",
-              "params": [
-                "component",
-                "=",
-                "'network'"
-              ],
-              "type": "expression"
-            },
-            {
-              "datatype": "int",
-              "name": "",
-              "params": [
-                "machine_id",
-                "=",
-                "$machine_id"
-              ],
-              "type": "expression"
             }
           ]
         }
@@ -3037,118 +3081,112 @@
     {
       "datasource": {
         "type": "mysql",
-        "uid": "${DS_MYSQL}"
+        "uid": "yrxo4LT4k"
       },
       "description": "",
       "fieldConfig": {
         "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
           "custom": {
-            "align": "auto",
-            "displayMode": "auto",
-            "filterable": false,
-            "inspect": false
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
           },
           "mappings": [],
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
                 "color": "green",
                 "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
               }
             ]
           },
-          "unit": "watt"
+          "unit": "currencyUSD"
         },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "HW ID"
-            },
-            "properties": [
-              {
-                "id": "unit"
-              }
-            ]
-          }
-        ]
+        "overrides": []
       },
       "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 25
+        "h": 4,
+        "w": 4,
+        "x": 20,
+        "y": 17
       },
-      "id": 25,
+      "id": 12,
       "options": {
-        "footer": {
-          "fields": "",
-          "reducer": [
-            "sum"
-          ],
-          "show": false
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
         },
-        "showHeader": true
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
       },
-      "pluginVersion": "9.0.0",
+      "pluginVersion": "8.5.5",
       "targets": [
         {
           "datasource": {
             "type": "mysql",
-            "uid": "${DS_MYSQL}"
+            "uid": "yrxo4LT4k"
           },
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": false,
-          "rawSql": "SELECT\n  time AS \"time\",\n  power_consumption AS \"Power consumption\",\n  hw_id AS \"HW ID\",\n  component AS \"Component\"\nFROM hardware\nWHERE\n  $__unixEpochFilter(time) AND\n  power_consumption != '' AND\n  machine_id = $machine_id\nORDER BY time",
+          "rawSql": "SELECT\n  time AS \"time\",\n  earning AS \"GPU 1\"\nFROM instance\nWHERE\n  $__unixEpochFilter(time) AND\n  instance_id = 1 AND\n  machine_id = $machine_id\nORDER BY time",
           "refId": "A",
           "select": [
             [
               {
                 "params": [
-                  "power_consumption"
+                  "earning"
                 ],
                 "type": "column"
               },
               {
                 "params": [
-                  "Power consumption"
-                ],
-                "type": "alias"
-              }
-            ],
-            [
-              {
-                "params": [
-                  "hw_id"
-                ],
-                "type": "column"
-              },
-              {
-                "params": [
-                  "HW ID"
-                ],
-                "type": "alias"
-              }
-            ],
-            [
-              {
-                "params": [
-                  "component"
-                ],
-                "type": "column"
-              },
-              {
-                "params": [
-                  "Component"
+                  "GPU 1"
                 ],
                 "type": "alias"
               }
             ]
           ],
-          "table": "hardware",
+          "table": "instance",
           "timeColumn": "time",
           "timeColumnType": "int",
           "where": [
@@ -3161,9 +3199,299 @@
               "datatype": "int",
               "name": "",
               "params": [
-                "power_consumption",
-                "!=",
-                "''"
+                "instance_id",
+                "=",
+                "1"
+              ],
+              "type": "expression"
+            },
+            {
+              "datatype": "int",
+              "name": "",
+              "params": [
+                "machine_id",
+                "=",
+                "$machine_id"
+              ],
+              "type": "expression"
+            }
+          ]
+        },
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "yrxo4LT4k"
+          },
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "rawSql": "SELECT\n  time AS \"time\",\n  earning AS \"GPU 2\"\nFROM instance\nWHERE\n  $__unixEpochFilter(time) AND\n  instance_id = 2 AND\n  machine_id = $machine_id\nORDER BY time",
+          "refId": "C",
+          "select": [
+            [
+              {
+                "params": [
+                  "earning"
+                ],
+                "type": "column"
+              },
+              {
+                "params": [
+                  "GPU 2"
+                ],
+                "type": "alias"
+              }
+            ]
+          ],
+          "table": "instance",
+          "timeColumn": "time",
+          "timeColumnType": "int",
+          "where": [
+            {
+              "name": "$__unixEpochFilter",
+              "params": [],
+              "type": "macro"
+            },
+            {
+              "datatype": "int",
+              "name": "",
+              "params": [
+                "instance_id",
+                "=",
+                "2"
+              ],
+              "type": "expression"
+            },
+            {
+              "datatype": "int",
+              "name": "",
+              "params": [
+                "machine_id",
+                "=",
+                "$machine_id"
+              ],
+              "type": "expression"
+            }
+          ]
+        },
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "yrxo4LT4k"
+          },
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "rawSql": "SELECT\n  time AS \"time\",\n  earning AS \"GPU 3\"\nFROM instance\nWHERE\n  $__unixEpochFilter(time) AND\n  instance_id = 3 AND\n  machine_id = $machine_id\nORDER BY time",
+          "refId": "B",
+          "select": [
+            [
+              {
+                "params": [
+                  "earning"
+                ],
+                "type": "column"
+              },
+              {
+                "params": [
+                  "GPU 3"
+                ],
+                "type": "alias"
+              }
+            ]
+          ],
+          "table": "instance",
+          "timeColumn": "time",
+          "timeColumnType": "int",
+          "where": [
+            {
+              "name": "$__unixEpochFilter",
+              "params": [],
+              "type": "macro"
+            },
+            {
+              "datatype": "int",
+              "name": "",
+              "params": [
+                "instance_id",
+                "=",
+                "3"
+              ],
+              "type": "expression"
+            },
+            {
+              "datatype": "int",
+              "name": "",
+              "params": [
+                "machine_id",
+                "=",
+                "$machine_id"
+              ],
+              "type": "expression"
+            }
+          ]
+        },
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "yrxo4LT4k"
+          },
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "rawSql": "SELECT\n  time AS \"time\",\n  earning AS \"GPU 4\"\nFROM instance\nWHERE\n  $__unixEpochFilter(time) AND\n  instance_id = 4 AND\n  machine_id = $machine_id\nORDER BY time",
+          "refId": "D",
+          "select": [
+            [
+              {
+                "params": [
+                  "earning"
+                ],
+                "type": "column"
+              },
+              {
+                "params": [
+                  "GPU 4"
+                ],
+                "type": "alias"
+              }
+            ]
+          ],
+          "table": "instance",
+          "timeColumn": "time",
+          "timeColumnType": "int",
+          "where": [
+            {
+              "name": "$__unixEpochFilter",
+              "params": [],
+              "type": "macro"
+            },
+            {
+              "datatype": "int",
+              "name": "",
+              "params": [
+                "instance_id",
+                "=",
+                "4"
+              ],
+              "type": "expression"
+            },
+            {
+              "datatype": "int",
+              "name": "",
+              "params": [
+                "machine_id",
+                "=",
+                "$machine_id"
+              ],
+              "type": "expression"
+            }
+          ]
+        },
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "yrxo4LT4k"
+          },
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "rawSql": "SELECT\n  time AS \"time\",\n  earning AS \"GPU 5\"\nFROM instance\nWHERE\n  $__unixEpochFilter(time) AND\n  instance_id = 5 AND\n  machine_id = $machine_id\nORDER BY time",
+          "refId": "E",
+          "select": [
+            [
+              {
+                "params": [
+                  "earning"
+                ],
+                "type": "column"
+              },
+              {
+                "params": [
+                  "GPU 5"
+                ],
+                "type": "alias"
+              }
+            ]
+          ],
+          "table": "instance",
+          "timeColumn": "time",
+          "timeColumnType": "int",
+          "where": [
+            {
+              "name": "$__unixEpochFilter",
+              "params": [],
+              "type": "macro"
+            },
+            {
+              "datatype": "int",
+              "name": "",
+              "params": [
+                "instance_id",
+                "=",
+                "5"
+              ],
+              "type": "expression"
+            },
+            {
+              "datatype": "int",
+              "name": "",
+              "params": [
+                "machine_id",
+                "=",
+                "$machine_id"
+              ],
+              "type": "expression"
+            }
+          ]
+        },
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "yrxo4LT4k"
+          },
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "rawSql": "SELECT\n  time AS \"time\",\n  earning AS \"GPU 0\"\nFROM instance\nWHERE\n  $__unixEpochFilter(time) AND\n  instance_id = 0 AND\n  machine_id = $machine_id\nORDER BY time",
+          "refId": "F",
+          "select": [
+            [
+              {
+                "params": [
+                  "earning"
+                ],
+                "type": "column"
+              },
+              {
+                "params": [
+                  "GPU 0"
+                ],
+                "type": "alias"
+              }
+            ]
+          ],
+          "table": "instance",
+          "timeColumn": "time",
+          "timeColumnType": "int",
+          "where": [
+            {
+              "name": "$__unixEpochFilter",
+              "params": [],
+              "type": "macro"
+            },
+            {
+              "datatype": "int",
+              "name": "",
+              "params": [
+                "instance_id",
+                "=",
+                "0"
               ],
               "type": "expression"
             },
@@ -3180,388 +3508,13 @@
           ]
         }
       ],
-      "title": "GPU Power Draw",
-      "transformations": [
-        {
-          "id": "groupBy",
-          "options": {
-            "fields": {
-              "Component": {
-                "aggregations": [],
-                "operation": "aggregate"
-              },
-              "GPU 1": {
-                "aggregations": [
-                  "last"
-                ],
-                "operation": "aggregate"
-              },
-              "HW ID": {
-                "aggregations": [],
-                "operation": "groupby"
-              },
-              "Power consumption": {
-                "aggregations": [
-                  "last"
-                ],
-                "operation": "aggregate"
-              },
-              "Time": {
-                "aggregations": [
-                  "last"
-                ],
-                "operation": "aggregate"
-              },
-              "Value": {
-                "aggregations": [
-                  "last"
-                ],
-                "operation": "aggregate"
-              },
-              "hw_id": {
-                "aggregations": [],
-                "operation": "groupby"
-              },
-              "time": {
-                "aggregations": []
-              }
-            }
-          }
-        }
-      ],
-      "type": "table"
-    },
-    {
-      "datasource": {
-        "type": "mysql",
-        "uid": "${DS_MYSQL}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "bars",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "percent"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 25
-      },
-      "id": 39,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom"
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "mysql",
-            "uid": "${DS_MYSQL}"
-          },
-          "format": "time_series",
-          "group": [],
-          "metricColumn": "none",
-          "rawQuery": true,
-          "rawSql": "SELECT\n  time AS \"time\",\n  utilisation\nFROM hardware\nWHERE\n  $__unixEpochFilter(time) AND\n  component = 'cpu' AND\n  machine_id = $machine_id\nORDER BY time",
-          "refId": "A",
-          "select": [
-            [
-              {
-                "params": [
-                  "value"
-                ],
-                "type": "column"
-              }
-            ]
-          ],
-          "timeColumn": "time",
-          "where": [
-            {
-              "name": "$__timeFilter",
-              "params": [],
-              "type": "macro"
-            }
-          ]
-        }
-      ],
-      "title": "CPU Usage",
+      "title": "Interruptible bid Prices",
       "type": "timeseries"
     },
     {
       "datasource": {
         "type": "mysql",
-        "uid": "${DS_MYSQL}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "bars",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "percent"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 33
-      },
-      "id": 41,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom"
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "mysql",
-            "uid": "${DS_MYSQL}"
-          },
-          "format": "time_series",
-          "group": [],
-          "metricColumn": "none",
-          "rawQuery": true,
-          "rawSql": "SELECT\n  time AS \"time\",\n  utilisation \nFROM hardware\nWHERE\n  $__unixEpochFilter(time) AND\n  component = 'disk_space' AND\n  machine_id = $machine_id\nORDER BY time",
-          "refId": "A",
-          "select": [
-            [
-              {
-                "params": [
-                  "value"
-                ],
-                "type": "column"
-              }
-            ]
-          ],
-          "timeColumn": "time",
-          "where": [
-            {
-              "name": "$__timeFilter",
-              "params": [],
-              "type": "macro"
-            }
-          ]
-        }
-      ],
-      "title": "Disk Usage",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "mysql",
-        "uid": "${DS_MYSQL}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "bars",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "percent"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 33
-      },
-      "id": 40,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom"
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "mysql",
-            "uid": "${DS_MYSQL}"
-          },
-          "format": "time_series",
-          "group": [],
-          "metricColumn": "none",
-          "rawQuery": true,
-          "rawSql": "SELECT\n  time AS \"time\",\n  utilisation \nFROM hardware\nWHERE\n  $__unixEpochFilter(time) AND\n  component = 'ram' AND\n  machine_id = $machine_id\nORDER BY time",
-          "refId": "A",
-          "select": [
-            [
-              {
-                "params": [
-                  "value"
-                ],
-                "type": "column"
-              }
-            ]
-          ],
-          "timeColumn": "time",
-          "where": [
-            {
-              "name": "$__timeFilter",
-              "params": [],
-              "type": "macro"
-            }
-          ]
-        }
-      ],
-      "title": "Ram Usage",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "mysql",
-        "uid": "${DS_MYSQL}"
+        "uid": "yrxo4LT4k"
       },
       "description": "",
       "fieldConfig": {
@@ -3636,10 +3589,10 @@
         ]
       },
       "gridPos": {
-        "h": 8,
+        "h": 13,
         "w": 24,
         "x": 0,
-        "y": 41
+        "y": 21
       },
       "id": 31,
       "options": {
@@ -3651,14 +3604,19 @@
           "show": false
         },
         "showHeader": true,
-        "sortBy": []
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "time"
+          }
+        ]
       },
-      "pluginVersion": "9.0.0",
+      "pluginVersion": "9.3.2",
       "targets": [
         {
           "datasource": {
             "type": "mysql",
-            "uid": "${DS_MYSQL}"
+            "uid": "yrxo4LT4k"
           },
           "format": "table",
           "group": [],
@@ -3735,17 +3693,17 @@
       "type": "table"
     }
   ],
-  "refresh": "",
-  "schemaVersion": 36,
+  "refresh": "1m",
+  "schemaVersion": 37,
   "style": "dark",
   "tags": [],
   "templating": {
     "list": [
       {
         "current": {
-          "selected": false,
-          "text": "180",
-          "value": "180"
+          "selected": true,
+          "text": "100",
+          "value": "100"
         },
         "hide": 0,
         "label": "Power Offset",
@@ -3753,19 +3711,19 @@
         "options": [
           {
             "selected": true,
-            "text": "250",
-            "value": "250"
+            "text": "100",
+            "value": "100"
           }
         ],
-        "query": "180",
+        "query": "100",
         "skipUrlSync": false,
         "type": "textbox"
       },
       {
         "current": {
-          "selected": false,
-          "text": "0.22",
-          "value": "0.22"
+          "selected": true,
+          "text": "0.078",
+          "value": "0.078"
         },
         "hide": 0,
         "label": "Power Cost",
@@ -3773,19 +3731,23 @@
         "options": [
           {
             "selected": true,
-            "text": "0.22",
-            "value": "0.22"
+            "text": "0.078",
+            "value": "0.078"
           }
         ],
-        "query": "0.22",
+        "query": "0.078",
         "skipUrlSync": false,
         "type": "textbox"
       },
       {
-        "current": {},
+        "current": {
+          "selected": false,
+          "text": "8336",
+          "value": "8336"
+        },
         "datasource": {
           "type": "mysql",
-          "uid": "${DS_MYSQL}"
+          "uid": "yrxo4LT4k"
         },
         "definition": "SELECT\n  machine_id\nFROM machine\nWHERE\n  $__unixEpochFilter(time)\nORDER BY time",
         "hide": 0,
@@ -3807,13 +3769,13 @@
     ]
   },
   "time": {
-    "from": "now-24h",
+    "from": "now-6h",
     "to": "now"
   },
   "timepicker": {},
-  "timezone": "",
+  "timezone": "America/Chicago",
   "title": "Vast-Host-Details",
   "uid": "SwHgmdcGk",
-  "version": 5,
-  "weekStart": ""
+  "version": 24,
+  "weekStart": "sunday"
 }
