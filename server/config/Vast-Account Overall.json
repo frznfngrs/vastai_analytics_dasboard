@@ -3,7 +3,10 @@
     "list": [
       {
         "builtIn": 1,
-        "datasource": "-- Grafana --",
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
@@ -21,16 +24,154 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 3,
+  "id": 2,
   "links": [],
   "liveNow": false,
   "panels": [
     {
+      "datasource": {
+        "type": "mysql",
+        "uid": "yrxo4LT4k"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "thresholds"
           },
+          "decimals": 2,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Total"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "currencyUSD"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 4,
+        "x": 0,
+        "y": 0
+      },
+      "id": 30,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "yrxo4LT4k"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT\r\n  time AS \"time\",\r\n  machine_id,\r\n  earn_hour * 0.75 AS \"earn_houry\",\r\n  earn_day * 0.75 AS \"earn_day\"\r\nFROM machine\r\nWHERE\r\n  $__unixEpochFilter(time)\r\nORDER BY time",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Earnings per day",
+      "transformations": [
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "Field": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "earn_day": {
+                "aggregations": [
+                  "lastNotNull"
+                ],
+                "operation": "aggregate"
+              },
+              "earn_houry": {
+                "aggregations": [
+                  "lastNotNull"
+                ],
+                "operation": "aggregate"
+              },
+              "machine_id": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "time": {
+                "aggregations": []
+              }
+            }
+          }
+        },
+        {
+          "id": "reduce",
+          "options": {
+            "labelsToFields": false,
+            "reducers": [
+              "sum"
+            ]
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "yrxo4LT4k"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 2,
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -47,8 +188,8 @@
       },
       "gridPos": {
         "h": 5,
-        "w": 3,
-        "x": 0,
+        "w": 4,
+        "x": 4,
         "y": 0
       },
       "id": 26,
@@ -67,9 +208,13 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.3.1",
+      "pluginVersion": "9.3.2",
       "targets": [
         {
+          "datasource": {
+            "type": "mysql",
+            "uid": "yrxo4LT4k"
+          },
           "format": "time_series",
           "group": [],
           "metricColumn": "none",
@@ -102,340 +247,9 @@
       "type": "stat"
     },
     {
-      "cards": {
-        "cardPadding": 2
-      },
-      "color": {
-        "cardColor": "#73BF69",
-        "colorScale": "sqrt",
-        "colorScheme": "interpolateGreens",
-        "exponent": 100,
-        "max": 100,
-        "min": 100,
-        "mode": "spectrum"
-      },
-      "dataFormat": "timeseries",
-      "gridPos": {
-        "h": 5,
-        "w": 18,
-        "x": 3,
-        "y": 0
-      },
-      "heatmap": {},
-      "hideZeroBuckets": false,
-      "highlightCards": true,
-      "id": 20,
-      "legend": {
-        "show": false
-      },
-      "pluginVersion": "8.2.5",
-      "reverseYBuckets": false,
-      "targets": [
-        {
-          "datasource": {
-            "type": "mysql",
-            "uid": "FEQWir57k"
-          },
-          "format": "time_series",
-          "group": [],
-          "hide": false,
-          "metricColumn": "none",
-          "rawQuery": false,
-          "rawSql": "SELECT\n  time AS \"time\",\n  machine_id\nFROM hardware\nWHERE\n  $__unixEpochFilter(time)\nORDER BY time",
-          "refId": "A",
-          "select": [
-            [
-              {
-                "params": [
-                  "machine_id"
-                ],
-                "type": "column"
-              }
-            ]
-          ],
-          "table": "hardware",
-          "timeColumn": "time",
-          "timeColumnType": "int",
-          "where": [
-            {
-              "name": "$__unixEpochFilter",
-              "params": [],
-              "type": "macro"
-            }
-          ]
-        }
-      ],
-      "title": "Host Online Status",
-      "tooltip": {
-        "show": true,
-        "showHistogram": true
-      },
-      "type": "heatmap",
-      "xAxis": {
-        "show": true
-      },
-      "xBucketNumber": 10000,
-      "xBucketSize": "",
-      "yAxis": {
-        "format": "none",
-        "logBase": 1,
-        "show": true
-      },
-      "yBucketBound": "auto"
-    },
-    {
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "none"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 5,
-        "w": 3,
-        "x": 21,
-        "y": 0
-      },
-      "id": 22,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "center",
-        "orientation": "horizontal",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "text": {},
-        "textMode": "value_and_name"
-      },
-      "pluginVersion": "8.3.1",
-      "targets": [
-        {
-          "format": "time_series",
-          "group": [],
-          "metricColumn": "none",
-          "rawQuery": false,
-          "rawSql": "SELECT\n  time AS \"time\",\n  hostname,\n  machine_id\nFROM machine\nWHERE\n  $__unixEpochFilter(time)\nORDER BY time",
-          "refId": "A",
-          "select": [
-            [
-              {
-                "params": [
-                  "hostname"
-                ],
-                "type": "column"
-              }
-            ],
-            [
-              {
-                "params": [
-                  "machine_id"
-                ],
-                "type": "column"
-              }
-            ]
-          ],
-          "table": "machine",
-          "timeColumn": "time",
-          "timeColumnType": "int",
-          "where": [
-            {
-              "name": "$__unixEpochFilter",
-              "params": [],
-              "type": "macro"
-            }
-          ]
-        }
-      ],
-      "transformations": [],
-      "type": "stat"
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "unit": "currencyUSD"
-        },
-        "overrides": []
-      },
-      "fill": 0,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 8,
-        "w": 8,
-        "x": 0,
-        "y": 5
-      },
-      "hiddenSeries": false,
-      "id": 12,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "connected",
-      "options": {
-        "alertThreshold": true
-      },
-      "percentage": false,
-      "pluginVersion": "8.3.1",
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "datasource": {
-            "type": "mysql",
-            "uid": "FEQWir57k"
-          },
-          "format": "time_series",
-          "group": [
-            {
-              "params": [
-                "1h",
-                "none"
-              ],
-              "type": "time"
-            }
-          ],
-          "hide": false,
-          "metricColumn": "none",
-          "rawQuery": true,
-          "rawSql": "SELECT\n  $__unixEpochGroupAlias(time,10m),\n  sum(earn_hour * 0.75) / count(earn_hour * 0.75) * count(DISTINCT machine_id) AS \"overall earn_hour\"\nFROM machine\nWHERE\n  $__unixEpochFilter(time)\nGROUP BY 1\nORDER BY $__unixEpochGroup(time,10m)",
-          "refId": "A",
-          "select": [
-            [
-              {
-                "params": [
-                  "earn_hour"
-                ],
-                "type": "column"
-              },
-              {
-                "params": [
-                  "sum"
-                ],
-                "type": "aggregate"
-              },
-              {
-                "params": [
-                  "earn_hour"
-                ],
-                "type": "alias"
-              }
-            ]
-          ],
-          "table": "machine",
-          "timeColumn": "time",
-          "timeColumnType": "int",
-          "where": [
-            {
-              "name": "$__unixEpochFilter",
-              "params": [],
-              "type": "macro"
-            }
-          ]
-        },
-        {
-          "datasource": {
-            "type": "mysql",
-            "uid": "FEQWir57k"
-          },
-          "format": "time_series",
-          "group": [],
-          "hide": false,
-          "metricColumn": "hostname",
-          "rawQuery": true,
-          "rawSql": "SELECT\n  time AS \"time\",\n  hostname AS metric,\n  earn_hour * 0.75\nFROM machine\nWHERE\n  $__unixEpochFilter(time)\nORDER BY time",
-          "refId": "B",
-          "select": [
-            [
-              {
-                "params": [
-                  "earn_hour"
-                ],
-                "type": "column"
-              }
-            ]
-          ],
-          "table": "machine",
-          "timeColumn": "time",
-          "timeColumnType": "int",
-          "where": [
-            {
-              "name": "$__unixEpochFilter",
-              "params": [],
-              "type": "macro"
-            }
-          ]
-        }
-      ],
-      "thresholds": [],
-      "timeRegions": [],
-      "title": "Total Income per hour",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "transformations": [],
-      "type": "graph",
-      "xaxis": {
-        "mode": "time",
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "currencyUSD",
-          "logBase": 1,
-          "show": true
-        },
-        {
-          "format": "short",
-          "logBase": 1,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false
-      }
-    },
-    {
       "datasource": {
         "type": "mysql",
-        "uid": "FEQWir57k"
+        "uid": "yrxo4LT4k"
       },
       "description": "",
       "fieldConfig": {
@@ -444,6 +258,8 @@
             "mode": "thresholds"
           },
           "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
@@ -490,25 +306,31 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 8,
-        "w": 13,
+        "h": 6,
+        "w": 11,
         "x": 8,
-        "y": 5
+        "y": 0
       },
       "id": 4,
       "options": {
         "legend": {
           "calcs": [],
-          "displayMode": "hidden",
-          "placement": "bottom"
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
         },
         "tooltip": {
-          "mode": "single"
+          "mode": "single",
+          "sort": "none"
         }
       },
       "pluginVersion": "8.2.5",
       "targets": [
         {
+          "datasource": {
+            "type": "mysql",
+            "uid": "yrxo4LT4k"
+          },
           "format": "time_series",
           "group": [
             {
@@ -563,10 +385,469 @@
       "type": "timeseries"
     },
     {
+      "datasource": {
+        "type": "mysql",
+        "uid": "yrxo4LT4k"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "machine_id vastai-01"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "vastai-01"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "machine_id vastai-02"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "vastai-02"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "machine_id vastai-03"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "vastai-03"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "machine_id vastai-04"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "vastai-04"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 5,
+        "x": 19,
+        "y": 0
+      },
+      "id": 22,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "value_and_name"
+      },
+      "pluginVersion": "9.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "yrxo4LT4k"
+          },
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "rawSql": "SELECT\n  time AS \"time\",\n  hostname,\n  machine_id\nFROM machine\nWHERE\n  $__unixEpochFilter(time)\nORDER BY time",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "hostname"
+                ],
+                "type": "column"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "machine_id"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "machine",
+          "timeColumn": "time",
+          "timeColumnType": "int",
+          "where": [
+            {
+              "name": "$__unixEpochFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "transformations": [],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "yrxo4LT4k"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 2,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Total"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "currencyUSD"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 0,
+        "y": 2
+      },
+      "id": 31,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "yrxo4LT4k"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT\r\n  time AS \"time\",\r\n  machine_id,\r\n  (earn_day * 0.75) * 30 AS \"earn_month\"\r\nFROM machine\r\nWHERE\r\n  $__unixEpochFilter(time)\r\nORDER BY time",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Earnings per Month",
+      "transformations": [
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "Field": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "earn_day": {
+                "aggregations": [
+                  "lastNotNull"
+                ],
+                "operation": "aggregate"
+              },
+              "earn_houry": {
+                "aggregations": [
+                  "lastNotNull"
+                ],
+                "operation": "aggregate"
+              },
+              "earn_month": {
+                "aggregations": [
+                  "lastNotNull"
+                ],
+                "operation": "aggregate"
+              },
+              "machine_id": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "time": {
+                "aggregations": []
+              }
+            }
+          }
+        },
+        {
+          "id": "reduce",
+          "options": {
+            "includeTimeField": false,
+            "labelsToFields": false,
+            "mode": "seriesToRows",
+            "reducers": [
+              "sum"
+            ]
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "yrxo4LT4k"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": true,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "decimals": 2,
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "currencyUSD"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 8,
+        "x": 0,
+        "y": 5
+      },
+      "id": 12,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "yrxo4LT4k"
+          },
+          "format": "time_series",
+          "group": [
+            {
+              "params": [
+                "1h",
+                "none"
+              ],
+              "type": "time"
+            }
+          ],
+          "hide": false,
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  $__unixEpochGroupAlias(time,10m),\n  sum(earn_hour * 0.75) / count(earn_hour * 0.75) * count(DISTINCT machine_id) AS \"overall earn_hour\"\nFROM machine\nWHERE\n  $__unixEpochFilter(time)\nGROUP BY 1\nORDER BY $__unixEpochGroup(time,10m)",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "earn_hour"
+                ],
+                "type": "column"
+              },
+              {
+                "params": [
+                  "sum"
+                ],
+                "type": "aggregate"
+              },
+              {
+                "params": [
+                  "earn_hour"
+                ],
+                "type": "alias"
+              }
+            ]
+          ],
+          "table": "machine",
+          "timeColumn": "time",
+          "timeColumnType": "int",
+          "where": [
+            {
+              "name": "$__unixEpochFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        },
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "yrxo4LT4k"
+          },
+          "format": "time_series",
+          "group": [],
+          "hide": false,
+          "metricColumn": "hostname",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  time AS \"time\",\n  hostname AS metric,\n  earn_hour * 0.75\nFROM machine\nWHERE\n  $__unixEpochFilter(time)\nORDER BY time",
+          "refId": "B",
+          "select": [
+            [
+              {
+                "params": [
+                  "earn_hour"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "machine",
+          "timeColumn": "time",
+          "timeColumnType": "int",
+          "where": [
+            {
+              "name": "$__unixEpochFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Total Income per hour",
+      "transformations": [],
+      "type": "timeseries"
+    },
+    {
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
+      "datasource": {
+        "type": "mysql",
+        "uid": "yrxo4LT4k"
+      },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -577,9 +858,9 @@
       "fill": 0,
       "fillGradient": 0,
       "gridPos": {
-        "h": 8,
-        "w": 3,
-        "x": 21,
+        "h": 7,
+        "w": 5,
+        "x": 19,
         "y": 5
       },
       "hiddenSeries": false,
@@ -600,7 +881,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "8.3.1",
+      "pluginVersion": "9.3.2",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -612,7 +893,7 @@
         {
           "datasource": {
             "type": "mysql",
-            "uid": "FEQWir57k"
+            "uid": "yrxo4LT4k"
           },
           "format": "time_series",
           "group": [],
@@ -643,7 +924,7 @@
         {
           "datasource": {
             "type": "mysql",
-            "uid": "FEQWir57k"
+            "uid": "yrxo4LT4k"
           },
           "format": "time_series",
           "group": [],
@@ -705,160 +986,9 @@
       }
     },
     {
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "custom": {
-            "align": "left",
-            "displayMode": "auto"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "currencyUSD"
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "machine_id"
-            },
-            "properties": [
-              {
-                "id": "unit"
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 9,
-        "x": 0,
-        "y": 13
-      },
-      "id": 14,
-      "options": {
-        "footer": {
-          "fields": "",
-          "reducer": [
-            "sum"
-          ],
-          "show": false
-        },
-        "showHeader": true
-      },
-      "pluginVersion": "8.3.1",
-      "targets": [
-        {
-          "format": "time_series",
-          "group": [],
-          "hide": false,
-          "metricColumn": "none",
-          "rawQuery": true,
-          "rawSql": "SELECT\n  time AS \"time\",\n  machine_id,\n  earn_hour * 0.75 AS \"earn_houry\",\n  earn_day * 0.75 AS \"earn_day\"\nFROM machine\nWHERE\n  $__unixEpochFilter(time)\nORDER BY time",
-          "refId": "A",
-          "select": [
-            [
-              {
-                "params": [
-                  "machine_id"
-                ],
-                "type": "column"
-              }
-            ],
-            [
-              {
-                "params": [
-                  "earn_hour"
-                ],
-                "type": "column"
-              }
-            ]
-          ],
-          "table": "machine",
-          "timeColumn": "time",
-          "timeColumnType": "int",
-          "where": [
-            {
-              "name": "$__unixEpochFilter",
-              "params": [],
-              "type": "macro"
-            }
-          ]
-        }
-      ],
-      "title": "Income Per Host",
-      "transformations": [
-        {
-          "id": "groupBy",
-          "options": {
-            "fields": {
-              "earn_day": {
-                "aggregations": [
-                  "last"
-                ],
-                "operation": "aggregate"
-              },
-              "earn_day * 0.75": {
-                "aggregations": [
-                  "lastNotNull"
-                ],
-                "operation": "aggregate"
-              },
-              "earn_hour": {
-                "aggregations": [
-                  "last"
-                ],
-                "operation": "aggregate"
-              },
-              "earn_hour * 0.75": {
-                "aggregations": [
-                  "last"
-                ],
-                "operation": "aggregate"
-              },
-              "earn_houry": {
-                "aggregations": [
-                  "last"
-                ],
-                "operation": "aggregate"
-              },
-              "machine_id": {
-                "aggregations": [],
-                "operation": "groupby"
-              }
-            }
-          }
-        },
-        {
-          "id": "organize",
-          "options": {
-            "excludeByName": {},
-            "indexByName": {},
-            "renameByName": {
-              "earn_day (last)": "Earnings per day",
-              "earn_hour (last)": "Earnings per hour",
-              "earn_houry (last)": "Earnings per hour"
-            }
-          }
-        }
-      ],
-      "type": "table"
-    },
-    {
       "datasource": {
         "type": "mysql",
-        "uid": "FEQWir57k"
+        "uid": "yrxo4LT4k"
       },
       "fieldConfig": {
         "defaults": {
@@ -867,7 +997,8 @@
           },
           "custom": {
             "align": "left",
-            "displayMode": "auto"
+            "displayMode": "auto",
+            "inspect": false
           },
           "mappings": [],
           "thresholds": {
@@ -900,22 +1031,94 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "TOTAL"
+              "options": "Total"
             },
             "properties": [
               {
                 "id": "custom.width",
-                "value": 120
+                "value": 80
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "GPU0"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 80
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "GPU1"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 80
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "GPU2"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 80
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "GPU3"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 80
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "GPU4"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 80
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "GPU5"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 77
               }
             ]
           }
         ]
       },
       "gridPos": {
-        "h": 4,
-        "w": 15,
-        "x": 9,
-        "y": 13
+        "h": 6,
+        "w": 11,
+        "x": 8,
+        "y": 6
       },
       "id": 10,
       "options": {
@@ -930,9 +1133,13 @@
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "8.3.1",
+      "pluginVersion": "9.3.2",
       "targets": [
         {
+          "datasource": {
+            "type": "mysql",
+            "uid": "yrxo4LT4k"
+          },
           "format": "time_series",
           "group": [],
           "hide": false,
@@ -990,6 +1197,10 @@
           ]
         },
         {
+          "datasource": {
+            "type": "mysql",
+            "uid": "yrxo4LT4k"
+          },
           "format": "time_series",
           "group": [],
           "hide": false,
@@ -1047,6 +1258,10 @@
           ]
         },
         {
+          "datasource": {
+            "type": "mysql",
+            "uid": "yrxo4LT4k"
+          },
           "format": "time_series",
           "group": [],
           "hide": false,
@@ -1104,6 +1319,10 @@
           ]
         },
         {
+          "datasource": {
+            "type": "mysql",
+            "uid": "yrxo4LT4k"
+          },
           "format": "time_series",
           "group": [],
           "hide": false,
@@ -1161,6 +1380,10 @@
           ]
         },
         {
+          "datasource": {
+            "type": "mysql",
+            "uid": "yrxo4LT4k"
+          },
           "format": "time_series",
           "group": [],
           "hide": false,
@@ -1218,6 +1441,10 @@
           ]
         },
         {
+          "datasource": {
+            "type": "mysql",
+            "uid": "yrxo4LT4k"
+          },
           "format": "time_series",
           "group": [],
           "hide": false,
@@ -1275,6 +1502,10 @@
           ]
         },
         {
+          "datasource": {
+            "type": "mysql",
+            "uid": "yrxo4LT4k"
+          },
           "format": "time_series",
           "group": [],
           "hide": false,
@@ -1332,6 +1563,10 @@
           ]
         },
         {
+          "datasource": {
+            "type": "mysql",
+            "uid": "yrxo4LT4k"
+          },
           "format": "time_series",
           "group": [],
           "hide": false,
@@ -1474,14 +1709,217 @@
     {
       "datasource": {
         "type": "mysql",
-        "uid": "FEQWir57k"
+        "uid": "yrxo4LT4k"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "left",
+            "displayMode": "auto",
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "currencyUSD"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "machine_id"
+            },
+            "properties": [
+              {
+                "id": "unit"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Earnings per hour"
+            },
+            "properties": [
+              {
+                "id": "decimals",
+                "value": 2
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Earnings per day"
+            },
+            "properties": [
+              {
+                "id": "decimals",
+                "value": 2
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 0,
+        "y": 12
+      },
+      "id": 14,
+      "options": {
+        "footer": {
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "9.3.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "yrxo4LT4k"
+          },
+          "editorMode": "code",
+          "format": "time_series",
+          "group": [],
+          "hide": false,
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  time AS \"time\",\n  machine_id,\n  earn_hour * 0.75 AS \"earn_houry\",\n  earn_day * 0.75 AS \"earn_day\"\nFROM machine\nWHERE\n  $__unixEpochFilter(time)\nORDER BY time",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "machine_id"
+                ],
+                "type": "column"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "earn_hour"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "machine",
+          "timeColumn": "time",
+          "timeColumnType": "int",
+          "where": [
+            {
+              "name": "$__unixEpochFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Income Per Host",
+      "transformations": [
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "earn_day": {
+                "aggregations": [
+                  "last"
+                ],
+                "operation": "aggregate"
+              },
+              "earn_day * 0.75": {
+                "aggregations": [
+                  "lastNotNull"
+                ],
+                "operation": "aggregate"
+              },
+              "earn_hour": {
+                "aggregations": [
+                  "last"
+                ],
+                "operation": "aggregate"
+              },
+              "earn_hour * 0.75": {
+                "aggregations": [
+                  "last"
+                ],
+                "operation": "aggregate"
+              },
+              "earn_houry": {
+                "aggregations": [
+                  "last"
+                ],
+                "operation": "aggregate"
+              },
+              "machine_id": {
+                "aggregations": [],
+                "operation": "groupby"
+              }
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "earn_day (last)": "Earnings per day",
+              "earn_hour (last)": "Earnings per hour",
+              "earn_houry (last)": "Earnings per hour"
+            }
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "yrxo4LT4k"
       },
       "fieldConfig": {
         "defaults": {
           "custom": {
             "align": "left",
             "displayMode": "auto",
-            "filterable": false
+            "filterable": false,
+            "inspect": false
           },
           "mappings": [],
           "thresholds": {
@@ -1522,14 +1960,62 @@
                 "value": 113
               }
             ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Running On Demand"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "D"
+              },
+              {
+                "id": "custom.width",
+                "value": 20
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Running Interruptible"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "I"
+              },
+              {
+                "id": "custom.width",
+                "value": 20
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Stored Instances"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Stored"
+              },
+              {
+                "id": "custom.width",
+                "value": 20
+              }
+            ]
           }
         ]
       },
       "gridPos": {
-        "h": 4,
-        "w": 9,
-        "x": 0,
-        "y": 17
+        "h": 6,
+        "w": 7,
+        "x": 8,
+        "y": 12
       },
       "id": 2,
       "options": {
@@ -1543,9 +2029,13 @@
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "8.3.1",
+      "pluginVersion": "9.3.2",
       "targets": [
         {
+          "datasource": {
+            "type": "mysql",
+            "uid": "yrxo4LT4k"
+          },
           "format": "table",
           "group": [],
           "metricColumn": "none",
@@ -1667,6 +2157,10 @@
       "type": "table"
     },
     {
+      "datasource": {
+        "type": "mysql",
+        "uid": "yrxo4LT4k"
+      },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -1675,7 +2169,8 @@
           },
           "custom": {
             "align": "left",
-            "displayMode": "auto"
+            "displayMode": "auto",
+            "inspect": false
           },
           "mappings": [],
           "thresholds": {
@@ -1699,16 +2194,92 @@
               {
                 "id": "unit",
                 "value": "none"
+              },
+              {
+                "id": "custom.width",
+                "value": 117
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "GPU0"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 60
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "GPU1"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 60
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "GPU2"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 60
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "GPU3"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 60
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "GPU4"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 60
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "GPU5"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 60
               }
             ]
           }
         ]
       },
       "gridPos": {
-        "h": 4,
-        "w": 15,
-        "x": 9,
-        "y": 17
+        "h": 6,
+        "w": 9,
+        "x": 15,
+        "y": 12
       },
       "id": 24,
       "options": {
@@ -1727,9 +2298,13 @@
           }
         ]
       },
-      "pluginVersion": "8.3.1",
+      "pluginVersion": "9.3.2",
       "targets": [
         {
+          "datasource": {
+            "type": "mysql",
+            "uid": "yrxo4LT4k"
+          },
           "format": "time_series",
           "group": [],
           "metricColumn": "none",
@@ -1784,6 +2359,10 @@
           ]
         },
         {
+          "datasource": {
+            "type": "mysql",
+            "uid": "yrxo4LT4k"
+          },
           "format": "time_series",
           "group": [],
           "hide": false,
@@ -1839,6 +2418,10 @@
           ]
         },
         {
+          "datasource": {
+            "type": "mysql",
+            "uid": "yrxo4LT4k"
+          },
           "format": "time_series",
           "group": [],
           "hide": false,
@@ -1894,6 +2477,10 @@
           ]
         },
         {
+          "datasource": {
+            "type": "mysql",
+            "uid": "yrxo4LT4k"
+          },
           "format": "time_series",
           "group": [],
           "hide": false,
@@ -1949,6 +2536,10 @@
           ]
         },
         {
+          "datasource": {
+            "type": "mysql",
+            "uid": "yrxo4LT4k"
+          },
           "format": "time_series",
           "group": [],
           "hide": false,
@@ -2004,6 +2595,10 @@
           ]
         },
         {
+          "datasource": {
+            "type": "mysql",
+            "uid": "yrxo4LT4k"
+          },
           "format": "time_series",
           "group": [],
           "hide": false,
@@ -2059,6 +2654,10 @@
           ]
         },
         {
+          "datasource": {
+            "type": "mysql",
+            "uid": "yrxo4LT4k"
+          },
           "format": "time_series",
           "group": [],
           "hide": false,
@@ -2114,6 +2713,10 @@
           ]
         },
         {
+          "datasource": {
+            "type": "mysql",
+            "uid": "yrxo4LT4k"
+          },
           "format": "time_series",
           "group": [],
           "hide": false,
@@ -2218,6 +2821,203 @@
       "type": "table"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "aifXq6JVk"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "{__name__=\"vastai_ondemand_price_10th_percentile_dollars\", gpu_name=\"RTX 3090\", instance=\"192.168.5.2:8622\", job=\"vastai_exporter\", rented=\"yes\", verified=\"yes\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "10th Percentile RTX 3090 Rented"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "{__name__=\"vastai_ondemand_price_10th_percentile_dollars\", gpu_name=\"RTX 4090\", instance=\"192.168.5.2:8622\", job=\"vastai_exporter\", rented=\"yes\", verified=\"yes\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "10th Percentile RTX 4090 Rented"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "{__name__=\"vastai_ondemand_price_median_dollars\", gpu_name=\"RTX 3090\", instance=\"192.168.5.2:8622\", job=\"vastai_exporter\", rented=\"yes\", verified=\"yes\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Median Price RTX 3090 Rented"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "{__name__=\"vastai_ondemand_price_median_dollars\", gpu_name=\"RTX 4090\", instance=\"192.168.5.2:8622\", job=\"vastai_exporter\", rented=\"yes\", verified=\"yes\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Median Price RTX 4090 Rented"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "{__name__=\"vastai_ondemand_price_90th_percentile_dollars\", gpu_name=\"RTX 3090\", instance=\"192.168.5.2:8622\", job=\"vastai_exporter\", rented=\"yes\", verified=\"yes\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "90th Percentile RTX 3090 Rented"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "{__name__=\"vastai_ondemand_price_90th_percentile_dollars\", gpu_name=\"RTX 4090\", instance=\"192.168.5.2:8622\", job=\"vastai_exporter\", rented=\"yes\", verified=\"yes\"}"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "90th Percentile RTX 4090 Rented"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 18
+      },
+      "id": 33,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "aifXq6JVk"
+          },
+          "editorMode": "builder",
+          "exemplar": false,
+          "expr": "vastai_ondemand_price_10th_percentile_dollars{verified=\"yes\", rented=\"yes\"}",
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "aifXq6JVk"
+          },
+          "editorMode": "builder",
+          "expr": "vastai_ondemand_price_median_dollars{verified=\"yes\", rented=\"yes\"}",
+          "hide": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "aifXq6JVk"
+          },
+          "editorMode": "builder",
+          "expr": "vastai_ondemand_price_90th_percentile_dollars{verified=\"yes\", rented=\"yes\"}",
+          "hide": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "C"
+        }
+      ],
+      "title": "Rented Price History",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "yrxo4LT4k"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -2225,7 +3025,8 @@
           },
           "custom": {
             "align": "left",
-            "displayMode": "auto"
+            "displayMode": "auto",
+            "inspect": false
           },
           "mappings": [],
           "thresholds": {
@@ -2267,10 +3068,10 @@
         ]
       },
       "gridPos": {
-        "h": 4,
+        "h": 5,
         "w": 7,
         "x": 0,
-        "y": 21
+        "y": 28
       },
       "id": 16,
       "options": {
@@ -2284,9 +3085,13 @@
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "8.3.1",
+      "pluginVersion": "9.3.2",
       "targets": [
         {
+          "datasource": {
+            "type": "mysql",
+            "uid": "yrxo4LT4k"
+          },
           "format": "time_series",
           "group": [],
           "metricColumn": "none",
@@ -2344,14 +3149,17 @@
     {
       "datasource": {
         "type": "mysql",
-        "uid": "FEQWir57k"
+        "uid": "yrxo4LT4k"
       },
       "fieldConfig": {
         "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
           "custom": {
             "align": "left",
             "displayMode": "auto",
-            "filterable": false
+            "inspect": false
           },
           "mappings": [],
           "thresholds": {
@@ -2381,10 +3189,10 @@
         ]
       },
       "gridPos": {
-        "h": 4,
+        "h": 5,
         "w": 6,
         "x": 7,
-        "y": 21
+        "y": 28
       },
       "id": 6,
       "options": {
@@ -2395,13 +3203,15 @@
           ],
           "show": false
         },
-        "frameIndex": 0,
-        "showHeader": true,
-        "sortBy": []
+        "showHeader": true
       },
-      "pluginVersion": "8.3.1",
+      "pluginVersion": "9.3.2",
       "targets": [
         {
+          "datasource": {
+            "type": "mysql",
+            "uid": "yrxo4LT4k"
+          },
           "format": "table",
           "group": [],
           "metricColumn": "none",
@@ -2473,14 +3283,15 @@
     {
       "datasource": {
         "type": "mysql",
-        "uid": "FEQWir57k"
+        "uid": "yrxo4LT4k"
       },
       "fieldConfig": {
         "defaults": {
           "custom": {
             "align": "left",
             "displayMode": "auto",
-            "filterable": false
+            "filterable": false,
+            "inspect": false
           },
           "mappings": [],
           "thresholds": {
@@ -2509,10 +3320,10 @@
         ]
       },
       "gridPos": {
-        "h": 4,
+        "h": 5,
         "w": 6,
         "x": 13,
-        "y": 21
+        "y": 28
       },
       "id": 8,
       "options": {
@@ -2526,9 +3337,13 @@
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "8.3.1",
+      "pluginVersion": "9.3.2",
       "targets": [
         {
+          "datasource": {
+            "type": "mysql",
+            "uid": "yrxo4LT4k"
+          },
           "format": "time_series",
           "group": [],
           "metricColumn": "none",
@@ -2598,6 +3413,10 @@
       "type": "table"
     },
     {
+      "datasource": {
+        "type": "mysql",
+        "uid": "yrxo4LT4k"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -2605,7 +3424,8 @@
           },
           "custom": {
             "align": "left",
-            "displayMode": "auto"
+            "displayMode": "auto",
+            "inspect": false
           },
           "mappings": [],
           "thresholds": {
@@ -2638,10 +3458,10 @@
         ]
       },
       "gridPos": {
-        "h": 4,
+        "h": 5,
         "w": 5,
         "x": 19,
-        "y": 21
+        "y": 28
       },
       "id": 18,
       "options": {
@@ -2655,9 +3475,13 @@
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "8.3.1",
+      "pluginVersion": "9.3.2",
       "targets": [
         {
+          "datasource": {
+            "type": "mysql",
+            "uid": "yrxo4LT4k"
+          },
           "format": "time_series",
           "group": [],
           "hide": false,
@@ -2764,21 +3588,21 @@
       "type": "table"
     }
   ],
-  "refresh": "",
-  "schemaVersion": 33,
+  "refresh": "1m",
+  "schemaVersion": 37,
   "style": "dark",
   "tags": [],
   "templating": {
     "list": []
   },
   "time": {
-    "from": "now-2d",
+    "from": "now-24h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "Account Overview",
   "uid": "TRHLcQ57z",
-  "version": 113,
+  "version": 33,
   "weekStart": ""
 }
