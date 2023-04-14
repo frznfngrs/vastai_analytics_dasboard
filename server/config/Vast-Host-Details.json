@@ -1953,6 +1953,36 @@
                 }
               }
             ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "GPU 2"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "GPU 3"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
           }
         ]
       },
@@ -2015,6 +2045,64 @@
           "rawQuery": true,
           "rawSql": "SELECT\r\n  time AS \"time\",\r\n  temperature AS \"GPU 1\"\r\nFROM hardware\r\nWHERE\r\n  $__unixEpochFilter(time) AND\r\n  component = 'gpu' AND\r\n  hw_id = 1 AND\r\n  machine_id = $machine_id\r\nORDER BY time",
           "refId": "B",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        },
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "yrxo4LT4k"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "hide": false,
+          "rawQuery": true,
+          "rawSql": "SELECT\r\n  time AS \"time\",\r\n  temperature AS \"GPU 2\"\r\nFROM hardware\r\nWHERE\r\n  $__unixEpochFilter(time) AND\r\n  component = 'gpu' AND\r\n  hw_id = 2 AND\r\n  machine_id = $machine_id\r\nORDER BY time",
+          "refId": "C",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        },
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "yrxo4LT4k"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "hide": false,
+          "rawQuery": true,
+          "rawSql": "SELECT\r\n  time AS \"time\",\r\n  temperature AS \"GPU 3\"\r\nFROM hardware\r\nWHERE\r\n  $__unixEpochFilter(time) AND\r\n  component = 'gpu' AND\r\n  hw_id = 3 AND\r\n  machine_id = $machine_id\r\nORDER BY time",
+          "refId": "D",
           "sql": {
             "columns": [
               {
@@ -2318,7 +2406,23 @@
           },
           "unit": "watt"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "GPU 3"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 7,
@@ -2626,11 +2730,12 @@
             "type": "mysql",
             "uid": "yrxo4LT4k"
           },
+          "editorMode": "code",
           "format": "table",
           "group": [],
           "metricColumn": "none",
-          "rawQuery": false,
-          "rawSql": "SELECT\n  time AS \"time\",\n  power_consumption AS \"GPU 4\"\nFROM hardware\nWHERE\n  $__unixEpochFilter(time) AND\n  component = 'gpu' AND\n  hw_id = 4 AND\n  machine_id = $machine_id\nORDER BY time",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  time AS \"time\",\n  power_consumption AS \"GPU 3\"\nFROM hardware\nWHERE\n  $__unixEpochFilter(time) AND\n  component = 'gpu' AND\n  hw_id = 3 AND\n  machine_id = $machine_id\nORDER BY time",
           "refId": "D",
           "select": [
             [
@@ -2648,6 +2753,23 @@
               }
             ]
           ],
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
           "table": "hardware",
           "timeColumn": "time",
           "timeColumnType": "int",
@@ -3776,6 +3898,6 @@
   "timezone": "America/Chicago",
   "title": "Vast-Host-Details",
   "uid": "SwHgmdcGk",
-  "version": 24,
+  "version": 28,
   "weekStart": "sunday"
 }
