@@ -37,7 +37,8 @@ class Instance(Encodable):
     gpu_util: int = None
     gpu_temp: int = None
     local: LocalStat = None
-
+    gpu_occupancy: str = None
+    
 class Machine(Encodable):
     id: int = None
     timeout: int = None
