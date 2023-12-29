@@ -12,6 +12,7 @@ def run():
 
     cpu_usage = psutil.cpu_percent()
     disk_space = psutil.disk_usage('/var/lib/docker')
+    disk_space_root = psutil.disk_usage('/')
     disk_usage = psutil.disk_io_counters(perdisk=False)
     network_usage = psutil.net_io_counters(pernic=True)
     networksum = 0
@@ -46,6 +47,14 @@ def run():
 
     hardware_records.append({
         "component": "disk_space",
+        "hw_id": None,
+        "utilisation": disk_space.percent,
+        "temperature": None,
+        "power_consumption": None,
+    })
+
+        hardware_records.append({
+        "component": "disk_space_root",
         "hw_id": None,
         "utilisation": disk_space.percent,
         "temperature": None,
