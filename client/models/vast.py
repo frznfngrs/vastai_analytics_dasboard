@@ -53,6 +53,7 @@ class Machine(Encodable):
     disk_bw: float = None
     bid_gpu_cost: float = None
     disk_space: int = None
+    disk_space_root: int = None
     earn_hour: float = None
     earn_day: float = None
     current_rentals_running: int = None
