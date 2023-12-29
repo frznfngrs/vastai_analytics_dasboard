@@ -12,6 +12,7 @@ def run():
     _time = int(time.time())
     cpu_usage = psutil.cpu_percent()
     disk_space = psutil.disk_usage('/var/lib/docker')
+    disk_space_root = psutil.disk_usage('/hostfs')
     disk_usage = psutil.disk_io_counters(perdisk=False)
     #    network_usage = psutil.net_io_counters(pernic=True)["docker0"]
     network_usage = psutil.net_io_counters(pernic=True)
@@ -49,6 +50,14 @@ def run():
         "component": "disk_space",
         "hw_id": None,
         "utilisation": disk_space.percent,
+        "temperature": None,
+        "power_consumption": None,
+    })
+    
+    db.insert_hardware(_time, {
+        "component": "disk_space_root",
+        "hw_id": None,
+        "utilisation": disk_space_root.percent,
         "temperature": None,
         "power_consumption": None,
     })
